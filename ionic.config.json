@@ -1,0 +1,7 @@
+{
+  "name": "devdaily",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
