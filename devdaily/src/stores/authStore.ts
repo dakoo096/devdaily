@@ -121,6 +121,25 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  async function fetchCurrentUser(): Promise<void> {
+    try {
+      const response = await api.get<any>('/api/auth/me');
+      user.value = {
+        id: String(response.id),
+        name: response.name,
+        email: response.email,
+        createdAt: response.createdAt,
+        devXp: response.devXp,
+        devLevel: response.devLevel,
+        currentStreak: response.currentStreak,
+        longestStreak: response.longestStreak,
+        lastQuizDate: response.lastQuizDate,
+      };
+    } catch (e) {
+      console.error('Error fetching current user', e);
+    }
+  }
+
   function setOnboardingCompleted(value: boolean) {
     onboardingCompleted.value = value;
   }
@@ -141,6 +160,7 @@ export const useAuthStore = defineStore('auth', () => {
     socialLogin,
     logout,
     updateProfile,
+    fetchCurrentUser,
     setOnboardingCompleted,
     clearError,
   };

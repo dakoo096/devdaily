@@ -41,4 +41,23 @@ public class User {
 
     @Column(name = "last_login")
     private LocalDateTime lastLogin;
+
+    @Column(name = "dev_xp", nullable = false)
+    @Builder.Default
+    private int devXp = 0;
+
+    @Column(name = "dev_level", nullable = false)
+    @Builder.Default
+    private int devLevel = 1;
+
+    @Column(name = "current_streak", nullable = false)
+    @Builder.Default
+    private int currentStreak = 0;
+
+    @Column(name = "longest_streak", nullable = false)
+    @Builder.Default
+    private int longestStreak = 0;
+
+    @Column(name = "last_quiz_date")
+    private java.time.LocalDate lastQuizDate;
 }

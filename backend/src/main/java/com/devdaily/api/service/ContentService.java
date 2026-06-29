@@ -30,6 +30,7 @@ public class ContentService {
     private final FavoriteRepository favoriteRepository;
     private final HistoryRepository historyRepository;
     private final ContentMapper contentMapper;
+    private final AchievementService achievementService;
 
     @Transactional
     public List<ContentResponse> getDailyContent(Long userId) {
@@ -99,6 +100,8 @@ public class ContentService {
                             .isRead(true)
                             .build();
                     historyRepository.save(history);
+                    achievementService.checkAndUnlockFirstRead(userId);
+                    achievementService.checkAndUnlockTechnology(userId, c.getTechnology());
                 }
             }
         } else {
@@ -114,5 +117,12 @@ public class ContentService {
             response.setRead(true); // Since it was generated/retrieved on screen
             return response;
         }).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public ContentResponse getContentById(Long id) {
+        Content content = contentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Contenido no encontrado"));
+        return contentMapper.toResponse(content);
     }
 }

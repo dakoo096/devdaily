@@ -7,9 +7,12 @@ import com.devdaily.api.dto.preference.SettingsResponse;
 import com.devdaily.api.dto.user.UpdateProfileRequest;
 import com.devdaily.api.dto.user.UserResponse;
 import com.devdaily.api.dto.user.UserStatsResponse;
+import com.devdaily.api.dto.user.UserAchievementResponse;
 import com.devdaily.api.entity.User;
 import com.devdaily.api.entity.UserPreference;
 import com.devdaily.api.entity.UserSetting;
+import com.devdaily.api.entity.Achievement;
+import com.devdaily.api.entity.UserAchievement;
 import com.devdaily.api.exception.ResourceNotFoundException;
 import com.devdaily.api.mapper.PreferenceMapper;
 import com.devdaily.api.mapper.SettingMapper;
@@ -19,9 +22,13 @@ import com.devdaily.api.repository.HistoryRepository;
 import com.devdaily.api.repository.UserPreferenceRepository;
 import com.devdaily.api.repository.UserSettingRepository;
 import com.devdaily.api.repository.UserRepository;
+import com.devdaily.api.repository.UserQuizResultRepository;
+import com.devdaily.api.repository.AchievementRepository;
+import com.devdaily.api.repository.UserAchievementRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.Optional;
 
 import java.time.LocalDateTime;
 
@@ -34,6 +41,9 @@ public class UserService {
     private final UserSettingRepository userSettingRepository;
     private final FavoriteRepository favoriteRepository;
     private final HistoryRepository historyRepository;
+    private final UserQuizResultRepository userQuizResultRepository;
+    private final AchievementRepository achievementRepository;
+    private final UserAchievementRepository userAchievementRepository;
 
     private final UserMapper userMapper;
     private final PreferenceMapper preferenceMapper;
@@ -110,18 +120,51 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserStatsResponse getUserStats(Long userId) {
-        if (!userRepository.existsById(userId)) {
-            throw new ResourceNotFoundException("Usuario no encontrado");
-        }
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
         long daysActive = historyRepository.countDistinctDaysActive(userId);
         long favorites = favoriteRepository.countByUserId(userId);
         long contentsRead = historyRepository.countByUserId(userId);
 
+        long quizzesCompleted = userQuizResultRepository.countByUserId(userId);
+        
+        // Calculate accuracy
+        java.util.List<com.devdaily.api.entity.UserQuizResult> results = userQuizResultRepository.findByUserId(userId);
+        int totalQuestions = results.size() * 3;
+        int totalCorrect = results.stream().mapToInt(com.devdaily.api.entity.UserQuizResult::getScore).sum();
+        int accuracy = totalQuestions > 0 ? (int) Math.round((totalCorrect * 100.0) / totalQuestions) : 0;
+
         return UserStatsResponse.builder()
                 .daysActive(daysActive)
                 .favorites(favorites)
                 .contentsRead(contentsRead)
+                .quizzesCompleted(quizzesCompleted)
+                .accuracy(accuracy)
+                .longestStreak(user.getLongestStreak())
+                .level(user.getDevLevel())
+                .xp(user.getDevXp())
                 .build();
+    }
+
+    @Transactional(readOnly = true)
+    public java.util.List<UserAchievementResponse> getAchievements(Long userId) {
+        java.util.List<Achievement> allAchievements = achievementRepository.findAll();
+        java.util.List<UserAchievement> userUnlocked = userAchievementRepository.findByUserId(userId);
+
+        return allAchievements.stream().map(a -> {
+            Optional<UserAchievement> unlockedOpt = userUnlocked.stream()
+                    .filter(ua -> ua.getAchievement().getId().equals(a.getId()))
+                    .findFirst();
+
+            return UserAchievementResponse.builder()
+                    .keyName(a.getKeyName())
+                    .title(a.getTitle())
+                    .description(a.getDescription())
+                    .xpReward(a.getXpReward())
+                    .unlocked(unlockedOpt.isPresent())
+                    .unlockedAt(unlockedOpt.isPresent() ? unlockedOpt.get().getUnlockedAt() : null)
+                    .build();
+        }).collect(java.util.stream.Collectors.toList());
     }
 }

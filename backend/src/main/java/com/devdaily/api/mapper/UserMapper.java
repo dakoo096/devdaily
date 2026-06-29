@@ -17,6 +17,11 @@ public class UserMapper {
         response.setEmail(user.getEmail());
         response.setRole(user.getRole());
         response.setCreatedAt(user.getCreatedAt());
+        response.setDevXp(user.getDevXp());
+        response.setDevLevel(user.getDevLevel());
+        response.setCurrentStreak(user.getCurrentStreak());
+        response.setLongestStreak(user.getLongestStreak());
+        response.setLastQuizDate(user.getLastQuizDate());
         return response;
     }
 }
