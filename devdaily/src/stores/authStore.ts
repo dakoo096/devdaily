@@ -72,6 +72,30 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
+  async function socialLogin(data: { name: string; email: string; provider: string; providerId: string; }): Promise<boolean> {
+    isLoading.value = true;
+    error.value = null;
+    try {
+      const response = await api.post<AuthResponse>('/api/auth/social', data);
+
+      token.value = response.token;
+      onboardingCompleted.value = response.onboardingCompleted;
+      user.value = {
+        id: String(response.id),
+        name: response.name,
+        email: response.email,
+        createdAt: new Date().toISOString(),
+      };
+
+      return true;
+    } catch (e: any) {
+      error.value = e.message || 'Error al iniciar sesión con cuenta social';
+      return false;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
   function logout() {
     user.value = null;
     token.value = null;
@@ -114,6 +138,7 @@ export const useAuthStore = defineStore('auth', () => {
     isAuthenticated,
     login,
     register,
+    socialLogin,
     logout,
     updateProfile,
     setOnboardingCompleted,

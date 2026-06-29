@@ -3,6 +3,7 @@ package com.devdaily.api.controller;
 import com.devdaily.api.dto.auth.AuthResponse;
 import com.devdaily.api.dto.auth.LoginRequest;
 import com.devdaily.api.dto.auth.RegisterRequest;
+import com.devdaily.api.dto.auth.SocialLoginRequest;
 import com.devdaily.api.dto.user.UserResponse;
 import com.devdaily.api.security.CustomUserDetails;
 import com.devdaily.api.service.AuthService;
@@ -40,5 +41,11 @@ public class AuthController {
     @Operation(summary = "Get current authenticated user profile")
     public ResponseEntity<UserResponse> getCurrentUser(@AuthenticationPrincipal CustomUserDetails userDetails) {
         return ResponseEntity.ok(userService.getUserProfile(userDetails.getId()));
+    }
+
+    @PostMapping("/social")
+    @Operation(summary = "Authenticate or register user via social provider (Google/Facebook)")
+    public ResponseEntity<AuthResponse> socialLogin(@Valid @RequestBody SocialLoginRequest request) {
+        return ResponseEntity.ok(authService.socialLogin(request));
     }
 }

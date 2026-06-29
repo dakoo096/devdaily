@@ -15,6 +15,10 @@ export function useAuth() {
     return authStore.register(data);
   }
 
+  async function socialLogin(data: { name: string; email: string; provider: string; providerId: string; }): Promise<boolean> {
+    return authStore.socialLogin(data);
+  }
+
   function logout() {
     authStore.logout();
   }
@@ -34,6 +38,7 @@ export function useAuth() {
     isAuthenticated,
     login,
     register,
+    socialLogin,
     logout,
     updateProfile,
     clearError,

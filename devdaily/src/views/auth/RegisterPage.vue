@@ -73,6 +73,25 @@
             <ion-spinner v-else name="crescent" />
           </button>
 
+          <!-- Social Divider -->
+          <div class="social-divider">
+            <span class="divider-line"></span>
+            <span class="divider-text">o continuar con</span>
+            <span class="divider-line"></span>
+          </div>
+
+          <!-- Social Buttons -->
+          <div class="social-buttons-container">
+            <button class="social-button google-btn" @click="handleSocialRegister('google')">
+              <ion-icon :icon="logoGoogle" class="social-icon" />
+              <span>Google</span>
+            </button>
+            <button class="social-button facebook-btn" @click="handleSocialRegister('facebook')">
+              <ion-icon :icon="logoFacebook" class="social-icon" />
+              <span>Facebook</span>
+            </button>
+          </div>
+
           <p class="switch-auth">
             ¿Ya tienes cuenta?
             <router-link to="/login" class="switch-link">Inicia Sesión</router-link>
@@ -90,11 +109,16 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { IonPage, IonContent, IonIcon, IonSpinner } from '@ionic/vue';
-import { personOutline, mailOutline, lockClosedOutline, eyeOutline, eyeOffOutline, alertCircleOutline } from 'ionicons/icons';
+import {
+  personOutline, mailOutline, lockClosedOutline, eyeOutline, eyeOffOutline,
+  alertCircleOutline, logoGoogle, logoFacebook,
+} from 'ionicons/icons';
 import { useAuth } from '@/composables/useAuth';
+import { useAuthStore } from '@/stores/authStore';
 
 const router = useRouter();
-const { register, isLoading, error, clearError } = useAuth();
+const authStore = useAuthStore();
+const { register, socialLogin, isLoading, error, clearError } = useAuth();
 
 const name = ref('');
 const email = ref('');
@@ -110,6 +134,22 @@ async function handleRegister() {
   });
   if (success) {
     router.replace('/onboarding');
+  }
+}
+
+async function handleSocialRegister(provider: string) {
+  clearError();
+  const mockData = provider === 'google'
+    ? { name: 'Google Dev', email: 'google.dev@example.com', provider: 'google', providerId: 'google-12345' }
+    : { name: 'Facebook Dev', email: 'facebook.dev@example.com', provider: 'facebook', providerId: 'facebook-12345' };
+
+  const success = await socialLogin(mockData);
+  if (success) {
+    if (authStore.onboardingCompleted) {
+      router.replace('/tabs/home');
+    } else {
+      router.replace('/onboarding');
+    }
   }
 }
 </script>
@@ -285,5 +325,78 @@ async function handleRegister() {
   background: var(--ion-color-tertiary);
   bottom: -40px;
   right: -60px;
+}
+
+/* Social Buttons */
+.social-divider {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  color: var(--dd-text-secondary);
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background: var(--dd-border);
+}
+
+.divider-text {
+  padding: 0 12px;
+  font-weight: 500;
+  text-transform: lowercase;
+}
+
+.social-buttons-container {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.social-button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px;
+  border-radius: var(--dd-radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid var(--dd-border);
+}
+
+.social-button:active {
+  transform: scale(0.97);
+}
+
+.google-btn {
+  background: var(--dd-surface);
+  color: var(--dd-text);
+}
+
+.google-btn:hover {
+  background: var(--dd-surface-hover);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.facebook-btn {
+  background: #1877F2;
+  color: #fff;
+  border-color: #1877F2;
+}
+
+.facebook-btn:hover {
+  background: #166FE5;
+  box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3);
+}
+
+.social-icon {
+  font-size: 20px;
 }
 </style>

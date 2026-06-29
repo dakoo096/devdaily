@@ -3,12 +3,15 @@ package com.devdaily.api.service;
 import com.devdaily.api.dto.auth.AuthResponse;
 import com.devdaily.api.dto.auth.LoginRequest;
 import com.devdaily.api.dto.auth.RegisterRequest;
+import com.devdaily.api.dto.auth.SocialLoginRequest;
 import com.devdaily.api.entity.User;
 import com.devdaily.api.enums.Role;
 import com.devdaily.api.exception.BadRequestException;
 import com.devdaily.api.repository.UserPreferenceRepository;
 import com.devdaily.api.repository.UserRepository;
+import com.devdaily.api.security.CustomUserDetails;
 import com.devdaily.api.security.JwtTokenProvider;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -109,6 +112,44 @@ public class AuthService {
                 .email(user.getEmail())
                 .role(user.getRole())
                 .onboardingCompleted(false) // Al registrarse no tiene preferencias aún
+                .build();
+    }
+
+    @Transactional
+    public AuthResponse socialLogin(SocialLoginRequest request) {
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseGet(() -> {
+                    User newUser = User.builder()
+                            .name(request.getName())
+                            .email(request.getEmail())
+                            .password(passwordEncoder.encode(UUID.randomUUID().toString()))
+                            .role(Role.USER)
+                            .build();
+                    return userRepository.save(newUser);
+                });
+
+        user.setLastLogin(LocalDateTime.now());
+        userRepository.save(user);
+
+        CustomUserDetails userPrincipal = CustomUserDetails.create(user);
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                userPrincipal,
+                null,
+                userPrincipal.getAuthorities()
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = tokenProvider.generateToken(authentication);
+
+        boolean onboardingCompleted = !userPreferenceRepository.findByUserId(user.getId()).isEmpty();
+
+        return AuthResponse.builder()
+                .token(jwt)
+                .id(user.getId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .role(user.getRole())
+                .onboardingCompleted(onboardingCompleted)
                 .build();
     }
 }
