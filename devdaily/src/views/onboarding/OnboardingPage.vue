@@ -2,6 +2,13 @@
   <ion-page>
     <ion-content :fullscreen="true" class="onboarding-content">
       <div class="onboarding-container">
+        <!-- Close Button -->
+        <div v-if="authStore.onboardingCompleted" class="header-section">
+          <button class="close-button" @click="handleCancel">
+            <ion-icon :icon="closeOutline" />
+          </button>
+        </div>
+
         <!-- Progress Bar -->
         <div class="progress-section">
           <div class="progress-bar">
@@ -107,9 +114,11 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { IonPage, IonContent } from '@ionic/vue';
+import { IonPage, IonContent, IonIcon } from '@ionic/vue';
+import { closeOutline } from 'ionicons/icons';
 import AppChip from '@/components/common/AppChip.vue';
 import { useSettingsStore } from '@/stores/settingsStore';
+import { useAuthStore } from '@/stores/authStore';
 import type { ContentType, Area, Technology, Level } from '@/types/content';
 import {
   CONTENT_TYPE_LABELS,
@@ -123,12 +132,13 @@ import {
 
 const router = useRouter();
 const settingsStore = useSettingsStore();
+const authStore = useAuthStore();
 
 const currentStep = ref(0);
-const selectedContentTypes = ref<ContentType[]>([]);
-const selectedAreas = ref<Area[]>([]);
-const selectedTechnologies = ref<Technology[]>([]);
-const selectedLevel = ref<Level>('junior');
+const selectedContentTypes = ref<ContentType[]>([...settingsStore.preferences.contentTypes]);
+const selectedAreas = ref<Area[]>([...settingsStore.preferences.areas]);
+const selectedTechnologies = ref<Technology[]>([...settingsStore.preferences.technologies]);
+const selectedLevel = ref<Level>(settingsStore.preferences.level || 'junior');
 
 const LEVEL_DESCRIPTIONS: Record<Level, string> = {
   student: 'Estoy aprendiendo a programar',
@@ -168,6 +178,10 @@ function handleNext() {
     settingsStore.completeOnboarding();
     router.replace('/tabs/home');
   }
+}
+
+function handleCancel() {
+  router.back();
 }
 </script>
 
@@ -345,5 +359,30 @@ function handleNext() {
   background: var(--dd-surface);
   color: var(--dd-text-secondary);
   border: 1px solid var(--dd-border);
+}
+
+.header-section {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: var(--dd-text-secondary);
+  font-size: 28px;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  border-radius: 50%;
+}
+
+.close-button:active {
+  color: var(--dd-text);
+  background: var(--dd-surface-hover);
 }
 </style>
