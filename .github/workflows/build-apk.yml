@@ -30,7 +30,7 @@ jobs:
       - name: Install Frontend Dependencies
         run: |
           cd devdaily
-          npm ci
+          npm install
 
       - name: Build Vue App
         run: |
@@ -40,6 +40,7 @@ jobs:
       - name: Sync Capacitor
         run: |
           cd devdaily
+          npx cap add android || true
           npx cap sync android
 
       - name: Build Android APK with Gradle
