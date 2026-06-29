@@ -111,7 +111,7 @@ import { computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import {
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
-  IonIcon, IonToggle,
+  IonIcon, IonToggle, toastController
 } from '@ionic/vue';
 import {
   moonOutline, notificationsOutline, optionsOutline,
@@ -141,11 +141,20 @@ const userInitials = computed(() => {
   return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
 });
 
-function handleLogout() {
+async function handleLogout() {
   authStore.logout();
   settingsStore.resetPreferences();
   favoritesStore.clearAll();
   historyStore.clearHistory();
+  
+  const toast = await toastController.create({
+    message: 'Sesión cerrada correctamente.',
+    duration: 2000,
+    color: 'medium',
+    position: 'bottom'
+  });
+  await toast.present();
+
   router.replace('/login');
 }
 </script>

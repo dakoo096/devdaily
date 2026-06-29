@@ -104,7 +104,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { IonPage, IonContent, IonIcon, IonSpinner } from '@ionic/vue';
+import { IonPage, IonContent, IonIcon, IonSpinner, toastController } from '@ionic/vue';
 import {
   mailOutline, lockClosedOutline, eyeOutline, eyeOffOutline,
   alertCircleOutline, logoGoogle, logoFacebook,
@@ -125,6 +125,14 @@ async function handleLogin() {
   clearError();
   const success = await login({ email: email.value, password: password.value });
   if (success) {
+    const toast = await toastController.create({
+      message: '¡Inicio de sesión exitoso!',
+      duration: 2000,
+      color: 'success',
+      position: 'bottom'
+    });
+    await toast.present();
+    
     if (authStore.onboardingCompleted) {
       router.replace('/tabs/home');
     } else {
@@ -139,6 +147,14 @@ async function handleSocialLogin(provider: string) {
   const onSuccess = async (socialData: any) => {
     const success = await socialLogin(socialData);
     if (success) {
+      const toast = await toastController.create({
+        message: `¡Sesión iniciada con ${provider === 'google' ? 'Google' : 'Facebook'}!`,
+        duration: 2000,
+        color: 'success',
+        position: 'bottom'
+      });
+      await toast.present();
+      
       if (authStore.onboardingCompleted) {
         router.replace('/tabs/home');
       } else {
