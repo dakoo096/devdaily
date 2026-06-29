@@ -1,5 +1,7 @@
-import { createApp } from 'vue'
-import App from './App.vue'
+import { createApp } from 'vue';
+import { createPinia } from 'pinia';
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
+import App from './App.vue';
 import router from './router';
 
 import { IonicVue } from '@ionic/vue';
@@ -23,19 +25,22 @@ import '@ionic/vue/css/display.css';
 /**
  * Ionic Dark Mode
  * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
+ * DevDaily manages dark mode manually via body.dark class.
+ * We don't use the system-based import.
  */
-
-/* @import '@ionic/vue/css/palettes/dark.always.css'; */
-/* @import '@ionic/vue/css/palettes/dark.class.css'; */
-import '@ionic/vue/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
 
+// Pinia
+const pinia = createPinia();
+pinia.use(piniaPluginPersistedstate);
+
 const app = createApp(App)
-  .use(IonicVue)
+  .use(IonicVue, {
+    mode: 'ios', // iOS design for a premium mobile feel
+  })
+  .use(pinia)
   .use(router);
 
 router.isReady().then(() => {
