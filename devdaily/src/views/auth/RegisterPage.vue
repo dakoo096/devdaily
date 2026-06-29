@@ -106,7 +106,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { IonPage, IonContent, IonIcon, IonSpinner, toastController } from '@ionic/vue';
 import {
@@ -125,6 +125,10 @@ const name = ref('');
 const email = ref('');
 const password = ref('');
 const showPassword = ref(false);
+
+onMounted(() => {
+  document.body.classList.add('dark');
+});
 
 async function handleRegister() {
   clearError();

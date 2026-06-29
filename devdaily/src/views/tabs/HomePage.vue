@@ -18,11 +18,7 @@
         </div>
 
         <!-- Daily Quiz Banner -->
-        <div 
-          class="quiz-banner-card animate-fade-in-up" 
-          :class="{ completed: isQuizCompleted }"
-          @click="goToQuiz"
-        >
+        <div class="quiz-banner-card animate-fade-in-up" :class="{ completed: isQuizCompleted }" @click="goToQuiz">
           <div class="quiz-banner-main">
             <div class="quiz-banner-left">
               <span class="quiz-banner-badge" :class="{ completed: isQuizCompleted }">
@@ -50,21 +46,10 @@
         <!-- Type Filter Chips -->
         <div class="filter-section animate-fade-in-up stagger-1">
           <div class="filter-scroll">
-            <AppChip
-              label="Todos"
-              :selected="!activeFilter"
-              small
-              @click="activeFilter = null"
-            />
-            <AppChip
-              v-for="type in settingsStore.preferences.contentTypes"
-              :key="type"
-              :label="CONTENT_TYPE_LABELS[type]"
-              :emoji="CONTENT_TYPE_EMOJIS[type]"
-              :selected="activeFilter === type"
-              small
-              @click="activeFilter = activeFilter === type ? null : type"
-            />
+            <AppChip label="Todos" :selected="!activeFilter" small @click="activeFilter = null" />
+            <AppChip v-for="type in settingsStore.preferences.contentTypes" :key="type"
+              :label="CONTENT_TYPE_LABELS[type]" :emoji="CONTENT_TYPE_EMOJIS[type]" :selected="activeFilter === type"
+              small @click="activeFilter = activeFilter === type ? null : type" />
           </div>
         </div>
 
@@ -75,19 +60,11 @@
 
         <!-- Content Cards -->
         <div v-else class="content-list">
-          <AppContentCard
-            v-for="(item, index) in filteredContent"
-            :key="item.id"
-            :item="item"
-            :class="`animate-fade-in-up stagger-${Math.min(index + 1, 8)}`"
-          />
+          <AppContentCard v-for="(item, index) in filteredContent" :key="item.id" :item="item"
+            :class="`animate-fade-in-up stagger-${Math.min(index + 1, 8)}`" />
 
-          <AppEmptyState
-            v-if="filteredContent.length === 0"
-            emoji="🔍"
-            title="No hay contenido"
-            description="No encontramos contenido para este filtro. Prueba con otro tipo."
-          />
+          <AppEmptyState v-if="filteredContent.length === 0" emoji="🔍" title="No hay contenido"
+            description="No encontramos contenido para este filtro. Prueba con otro tipo." />
         </div>
       </div>
     </ion-content>

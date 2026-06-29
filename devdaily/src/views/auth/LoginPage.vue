@@ -4,10 +4,8 @@
       <div class="login-container">
         <!-- Logo & Branding -->
         <div class="brand-section animate-fade-in-up">
-          <div class="logo-wrapper">
-            <div class="logo-icon">
-              <span>⚡</span>
-            </div>
+          <div class="brand-header-container">
+            <img src="/devDaily header.png" alt="DevDaily" class="brand-header-img" />
           </div>
           <h1 class="app-name">Dev<span class="gradient-text">Daily</span></h1>
           <p class="app-tagline">Tu dosis diaria de desarrollo</p>
@@ -18,28 +16,16 @@
           <div class="input-group">
             <div class="input-wrapper">
               <ion-icon :icon="mailOutline" class="input-icon" />
-              <input
-                id="login-email"
-                v-model="email"
-                type="email"
-                placeholder="Email"
-                class="app-input"
-                @keyup.enter="handleLogin"
-              />
+              <input id="login-email" v-model="email" type="email" placeholder="Email" class="app-input"
+                @keyup.enter="handleLogin" />
             </div>
           </div>
 
           <div class="input-group">
             <div class="input-wrapper">
               <ion-icon :icon="lockClosedOutline" class="input-icon" />
-              <input
-                id="login-password"
-                v-model="password"
-                :type="showPassword ? 'text' : 'password'"
-                placeholder="Contraseña"
-                class="app-input"
-                @keyup.enter="handleLogin"
-              />
+              <input id="login-password" v-model="password" :type="showPassword ? 'text' : 'password'"
+                placeholder="Contraseña" class="app-input" @keyup.enter="handleLogin" />
               <button class="toggle-password" @click="showPassword = !showPassword">
                 <ion-icon :icon="showPassword ? eyeOffOutline : eyeOutline" />
               </button>
@@ -55,13 +41,8 @@
           </transition>
 
           <!-- Login Button -->
-          <button
-            id="login-button"
-            class="primary-button"
-            :class="{ loading: isLoading }"
-            :disabled="isLoading"
-            @click="handleLogin"
-          >
+          <button id="login-button" class="primary-button" :class="{ loading: isLoading }" :disabled="isLoading"
+            @click="handleLogin">
             <span v-if="!isLoading">Iniciar Sesión</span>
             <ion-spinner v-else name="crescent" />
           </button>
@@ -102,7 +83,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { IonPage, IonContent, IonIcon, IonSpinner, toastController } from '@ionic/vue';
 import {
@@ -121,6 +102,10 @@ const email = ref('');
 const password = ref('');
 const showPassword = ref(false);
 
+onMounted(() => {
+  document.body.classList.add('dark');
+});
+
 async function handleLogin() {
   clearError();
   const success = await login({ email: email.value, password: password.value });
@@ -132,7 +117,7 @@ async function handleLogin() {
       position: 'bottom'
     });
     await toast.present();
-    
+
     if (authStore.onboardingCompleted) {
       router.replace('/tabs/home');
     } else {
@@ -143,7 +128,7 @@ async function handleLogin() {
 
 async function handleSocialLogin(provider: string) {
   clearError();
-  
+
   const onSuccess = async (socialData: any) => {
     const success = await socialLogin(socialData);
     if (success) {
@@ -154,7 +139,7 @@ async function handleSocialLogin(provider: string) {
         position: 'bottom'
       });
       await toast.present();
-      
+
       if (authStore.onboardingCompleted) {
         router.replace('/tabs/home');
       } else {
@@ -198,30 +183,15 @@ async function handleSocialLogin(provider: string) {
   z-index: 1;
 }
 
-.logo-wrapper {
-  margin-bottom: 16px;
+.brand-header-container {
+  margin-bottom: 12px;
 }
 
-.logo-icon {
-  width: 80px;
-  height: 80px;
-  border-radius: 24px;
-  background: var(--dd-gradient-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.brand-header-img {
+  max-width: 240px;
+  height: auto;
   margin: 0 auto;
-  font-size: 40px;
-  box-shadow: 0 8px 32px rgba(108, 92, 231, 0.3);
-  animation: pulse 3s ease-in-out infinite;
-}
-
-.app-name {
-  font-size: 36px;
-  font-weight: 800;
-  color: var(--dd-text);
-  margin: 0;
-  letter-spacing: -0.5px;
+  display: block;
 }
 
 .app-tagline {
@@ -386,14 +356,31 @@ async function handleSocialLogin(provider: string) {
 }
 
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-8px); }
-  75% { transform: translateX(8px); }
+
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  25% {
+    transform: translateX(-8px);
+  }
+
+  75% {
+    transform: translateX(8px);
+  }
 }
 
 @keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
 }
 
 /* Social Buttons */
