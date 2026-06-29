@@ -1,0 +1,55 @@
+name: Build Android APK
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch: # Permite compilar manualmente desde el panel de GitHub
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: devdaily/package-lock.json
+
+      - name: Install Frontend Dependencies
+        run: |
+          cd devdaily
+          npm ci
+
+      - name: Build Vue App
+        run: |
+          cd devdaily
+          npm run build
+
+      - name: Sync Capacitor
+        run: |
+          cd devdaily
+          npx cap sync android
+
+      - name: Build Android APK with Gradle
+        run: |
+          cd devdaily/android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: DevDaily-APK
+          path: devdaily/android/app/build/outputs/apk/debug/app-debug.apk
