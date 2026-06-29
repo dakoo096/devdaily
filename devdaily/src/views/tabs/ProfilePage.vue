@@ -53,7 +53,7 @@
             </div>
             <ion-toggle
               :checked="darkMode.isDark.value"
-              @ionChange="darkMode.toggle()"
+              style="pointer-events: none;"
             />
           </div>
 
