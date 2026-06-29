@@ -115,6 +115,7 @@ import {
 } from 'ionicons/icons';
 import { useAuth } from '@/composables/useAuth';
 import { useAuthStore } from '@/stores/authStore';
+import { socialAuth } from '@/services/socialAuth';
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -139,17 +140,26 @@ async function handleRegister() {
 
 async function handleSocialRegister(provider: string) {
   clearError();
-  const mockData = provider === 'google'
-    ? { name: 'Google Dev', email: 'google.dev@example.com', provider: 'google', providerId: 'google-12345' }
-    : { name: 'Facebook Dev', email: 'facebook.dev@example.com', provider: 'facebook', providerId: 'facebook-12345' };
 
-  const success = await socialLogin(mockData);
-  if (success) {
-    if (authStore.onboardingCompleted) {
-      router.replace('/tabs/home');
-    } else {
-      router.replace('/onboarding');
+  const onSuccess = async (socialData: any) => {
+    const success = await socialLogin(socialData);
+    if (success) {
+      if (authStore.onboardingCompleted) {
+        router.replace('/tabs/home');
+      } else {
+        router.replace('/onboarding');
+      }
     }
+  };
+
+  const onError = (err: any) => {
+    error.value = err.message || 'Error al iniciar sesión con cuenta social';
+  };
+
+  if (provider === 'google') {
+    await socialAuth.signInWithGoogle(onSuccess, onError);
+  } else {
+    await socialAuth.signInWithFacebook(onSuccess, onError);
   }
 }
 </script>
