@@ -21,7 +21,7 @@
           </div>
           <h2 class="user-name">{{ authStore.user?.name || 'Developer' }}</h2>
           <p class="user-email">{{ authStore.user?.email || '' }}</p>
-          
+
           <!-- Developer level badge and XP bar -->
           <div class="level-container">
             <div class="level-badge">Developer Lv. {{ stats.level }}</div>
@@ -56,12 +56,8 @@
         <div class="achievements-section animate-fade-in-up stagger-2">
           <h3 class="section-title">Logros</h3>
           <div class="achievements-list">
-            <div 
-              v-for="ach in achievements.slice(0, 3)" 
-              :key="ach.keyName" 
-              class="achievement-card"
-              :class="{ locked: !ach.unlocked }"
-            >
+            <div v-for="ach in achievements.slice(0, 3)" :key="ach.keyName" class="achievement-card"
+              :class="{ locked: !ach.unlocked }">
               <div class="achievement-icon">
                 {{ getAchievementEmoji(ach.keyName) }}
               </div>
@@ -77,7 +73,7 @@
               </div>
             </div>
           </div>
-          
+
           <div v-if="achievements.length > 3" class="see-all-achievements-container">
             <button class="see-all-btn" @click="showAllAchievementsModal = true">
               <span>Ver todos los logros ({{ achievements.length }})</span>
@@ -98,10 +94,7 @@
               </div>
               <span class="setting-label">Modo oscuro</span>
             </div>
-            <ion-toggle
-              :checked="darkMode.isDark.value"
-              style="pointer-events: none;"
-            />
+            <ion-toggle :checked="darkMode.isDark.value" style="pointer-events: none;" />
           </div>
 
           <!-- Notifications -->
@@ -151,7 +144,8 @@
       </div>
 
       <!-- All Achievements Modal -->
-      <ion-modal :is-open="showAllAchievementsModal" @didDismiss="showAllAchievementsModal = false" class="achievements-modal">
+      <ion-modal :is-open="showAllAchievementsModal" @didDismiss="showAllAchievementsModal = false"
+        class="achievements-modal">
         <ion-header>
           <ion-toolbar class="modal-toolbar">
             <ion-title class="modal-title">Todos los Logros</ion-title>
@@ -162,12 +156,8 @@
         </ion-header>
         <ion-content class="ion-padding modal-content">
           <div class="modal-achievements-list">
-            <div 
-              v-for="ach in achievements" 
-              :key="ach.keyName" 
-              class="achievement-card"
-              :class="{ locked: !ach.unlocked }"
-            >
+            <div v-for="ach in achievements" :key="ach.keyName" class="achievement-card"
+              :class="{ locked: !ach.unlocked }">
               <div class="achievement-icon">
                 {{ getAchievementEmoji(ach.keyName) }}
               </div>
@@ -190,11 +180,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import {
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
-  IonIcon, IonToggle, toastController, IonModal, IonButtons
+  IonIcon, IonToggle, toastController, IonModal, IonButtons,
+  onIonViewWillEnter
 } from '@ionic/vue';
 import {
   moonOutline, notificationsOutline, optionsOutline,
@@ -262,7 +253,7 @@ function getAchievementEmoji(keyName: string): string {
   }
 }
 
-onMounted(() => {
+onIonViewWillEnter(() => {
   historyStore.fetchHistory();
   settingsStore.fetchSettingsFromServer();
   favoritesStore.fetchFavorites();
@@ -279,7 +270,7 @@ async function handleLogout() {
   settingsStore.resetPreferences();
   favoritesStore.clearAll();
   historyStore.clearHistory();
-  
+
   const toast = await toastController.create({
     message: 'Sesión cerrada correctamente.',
     duration: 2000,
@@ -297,8 +288,13 @@ async function handleLogout() {
   --background: var(--dd-bg);
 }
 
-.page-title { font-weight: 700; }
-.page-title-large { font-weight: 800; }
+.page-title {
+  font-weight: 700;
+}
+
+.page-title-large {
+  font-weight: 800;
+}
 
 .profile-container {
   padding: 0 16px 100px;

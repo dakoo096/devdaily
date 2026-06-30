@@ -48,6 +48,8 @@ jobs:
         run: |
           cd devdaily
           npx cap add android || true
+          cp assets/icon.png assets/splash.png || true
+          npx @capacitor/assets generate --android || true
           npx cap sync android
 
       - name: Build Android APK with Gradle
