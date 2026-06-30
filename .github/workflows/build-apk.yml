@@ -32,6 +32,13 @@ jobs:
           cd devdaily
           npm install
 
+      - name: Create .env file
+        run: |
+          cd devdaily
+          echo "VITE_GOOGLE_CLIENT_ID=412889617967-m4bdgsiv0buvlpnraveg6f7c9unv9dmd.apps.googleusercontent.com" > .env
+          echo "VITE_FACEBOOK_APP_ID=4248072952123673" >> .env
+          echo "VITE_API_URL=https://devdaily-production.up.railway.app" >> .env
+
       - name: Build Vue App
         run: |
           cd devdaily
