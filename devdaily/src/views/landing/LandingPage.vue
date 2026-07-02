@@ -12,19 +12,19 @@
             DevDaily es una plataforma de microlearning diseñada para desarrolladores. Recibe lecciones breves, tips prácticos y quizzes adaptados a tus tecnologías preferidas en menos de 5 minutos al día.
           </p>
           <div class="hero-actions animate-fade-in-up stagger-3">
-            <a href="/#download" class="btn-landing btn-primary-landing btn-hero" @click="handleScrollTo($event, 'download')">
-              <ion-icon :icon="downloadOutline" class="btn-icon" />
-              <span>Descargar APK</span>
-            </a>
-            <router-link to="/login" class="btn-landing btn-outline-landing btn-hero">
-              <ion-icon :icon="laptopOutline" class="btn-icon" />
+            <router-link to="/register" class="btn-hero-primary">
+              <ion-icon :icon="rocketOutline" class="btn-hero-icon rocket-icon" />
+              <span>Empezar Gratis</span>
+            </router-link>
+            <router-link to="/login" class="btn-hero-secondary">
+              <ion-icon :icon="laptopOutline" class="btn-hero-icon laptop-icon" />
               <span>Probar en el Navegador</span>
             </router-link>
           </div>
         </div>
         <div class="hero-media-content animate-fade-in stagger-2">
           <div class="mockup-wrapper">
-            <img src="/assets/mockup_hero.png" alt="DevDaily Mobile Mockup" class="mockup-img" />
+            <img src="/devDaily header.png" alt="DevDaily Hero Mascot" class="mockup-img hero-mascot-img" />
             <div class="glow-effect"></div>
           </div>
         </div>
@@ -98,15 +98,20 @@
           <p>Un hábito de aprendizaje en 5 sencillos pasos.</p>
           <div class="header-line"></div>
         </div>
-        <div class="flow-steps">
-          <div v-for="(step, idx) in flowSteps" :key="idx" class="flow-step">
-            <div class="step-num-box">
-              <span class="step-number">{{ idx + 1 }}</span>
-              <div v-if="idx < flowSteps.length - 1" class="step-connector"></div>
-            </div>
-            <div class="step-content">
-              <h3>{{ step.title }}</h3>
-              <p>{{ step.description }}</p>
+        <div class="flow-content-wrapper">
+          <div class="flow-image-side animate-fade-in">
+            <img src="/assets/devDaily_question.png" alt="DevDaily Mascot Question" class="flow-mascot-img" />
+          </div>
+          <div class="flow-steps">
+            <div v-for="(step, idx) in flowSteps" :key="idx" class="flow-step animate-fade-in-up" :class="`stagger-${idx}`">
+              <div class="step-num-box">
+                <span class="step-number">{{ idx + 1 }}</span>
+                <div v-if="idx < flowSteps.length - 1" class="step-connector"></div>
+              </div>
+              <div class="step-content">
+                <h3>{{ step.title }}</h3>
+                <p>{{ step.description }}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -269,29 +274,6 @@
         </div>
       </div>
     </section>
-
-    <!-- Download CTA Section -->
-    <section class="download-section" id="download">
-      <div class="download-container">
-        <div class="download-content">
-          <h2>Empieza tu hábito hoy</h2>
-          <p>
-            Lleva DevDaily a todos lados descargando la APK en tu dispositivo Android o accede directamente desde tu navegador como una Aplicación Web Progresiva (PWA).
-          </p>
-          <div class="download-actions">
-            <a href="#" class="btn-landing btn-primary-landing btn-download-cta">
-              <ion-icon :icon="downloadOutline" class="btn-icon" />
-              <span>Descargar APK (Android)</span>
-            </a>
-            <router-link to="/login" class="btn-landing btn-outline-landing btn-download-cta cta-alt">
-              <ion-icon :icon="laptopOutline" class="btn-icon" />
-              <span>Usar Web App en Navegador</span>
-            </router-link>
-          </div>
-          <p class="download-subtext">También disponible próximamente en Google Play Store 🚀</p>
-        </div>
-      </div>
-    </section>
   </div>
 </template>
 
@@ -299,7 +281,7 @@
 import { ref } from 'vue';
 import { IonIcon } from '@ionic/vue';
 import { 
-  downloadOutline, laptopOutline, bookOutline, bulbOutline, 
+  laptopOutline, bookOutline, bulbOutline, 
   helpCircleOutline, heartOutline, barChartOutline, trophyOutline, 
   flameOutline, optionsOutline, moonOutline, rocketOutline, 
   constructOutline, schoolOutline, chevronBackOutline, chevronForwardOutline
@@ -421,13 +403,6 @@ function setSlide(idx: number) {
   activeSlide.value = idx;
 }
 
-function handleScrollTo(event: Event, targetId: string) {
-  event.preventDefault();
-  const element = document.getElementById(targetId);
-  if (element) {
-    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-}
 </script>
 
 <style scoped>
@@ -497,20 +472,107 @@ section {
   max-width: 580px;
 }
 
+/* Hero Buttons CSS */
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 18px;
+  margin-top: 10px;
 }
 
-.btn-hero {
-  padding: 14px 28px;
-  font-size: 15px;
+.btn-hero-primary,
+.btn-hero-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 36px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: -0.2px;
 }
 
-.btn-icon {
-  font-size: 18px;
-  margin-right: 8px;
+/* Primary CTA Button (Empezar Gratis) */
+.btn-hero-primary {
+  background: var(--dd-gradient-primary, linear-gradient(135deg, #6C5CE7, #8c7ae6));
+  color: #ffffff !important;
+  box-shadow: 0 8px 24px rgba(108, 92, 231, 0.35),
+              inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border: none;
+}
+
+.btn-hero-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.25),
+    transparent
+  );
+  transition: 0.5s;
+}
+
+.btn-hero-primary:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 15px 30px rgba(108, 92, 231, 0.5),
+              inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.btn-hero-primary:hover::before {
+  left: 100%;
+  transition: 0.8s ease-in-out;
+}
+
+.btn-hero-primary:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+/* Secondary CTA Button (Probar en el Navegador) */
+.btn-hero-secondary {
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--dd-text) !important;
+  border: 1px solid var(--dd-border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+.btn-hero-secondary:hover {
+  transform: translateY(-4px) scale(1.03);
+  background: rgba(108, 92, 231, 0.06);
+  border-color: rgba(108, 92, 231, 0.5);
+  box-shadow: 0 12px 24px rgba(108, 92, 231, 0.15);
+  color: var(--ion-color-primary) !important;
+}
+
+.btn-hero-secondary:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+/* Icons inside Hero Buttons */
+.btn-hero-icon {
+  font-size: 20px;
+  margin-right: 10px;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Rocket Icon Hover Animation */
+.btn-hero-primary:hover .rocket-icon {
+  transform: translateY(-4px) translateX(4px) rotate(15deg) scale(1.2);
+}
+
+/* Laptop Icon Hover Animation */
+.btn-hero-secondary:hover .laptop-icon {
+  transform: scale(1.2) rotate(-5deg);
 }
 
 .hero-media-content {
@@ -534,6 +596,16 @@ section {
   position: relative;
   z-index: 2;
   border: 4px solid var(--dd-border);
+}
+
+.hero-mascot-img {
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  max-width: 320px;
+  height: auto;
+  margin: 0 auto;
+  display: block;
 }
 
 .glow-effect {
@@ -602,7 +674,7 @@ section {
   align-items: center;
   justify-content: center;
   font-size: 24px;
-  margin-bottom: 24px;
+  margin: 0 auto 24px;
   box-shadow: 0 4px 12px rgba(108, 92, 231, 0.2);
 }
 
@@ -611,6 +683,7 @@ section {
   font-weight: 800;
   margin: 0 0 12px;
   color: var(--dd-text);
+  text-align: center;
 }
 
 .concept-card p {
@@ -618,6 +691,7 @@ section {
   color: var(--dd-text-secondary);
   line-height: 1.6;
   margin: 0;
+  text-align: justify;
 }
 
 /* Features Section (Características) */
@@ -696,7 +770,7 @@ section {
 }
 
 .flow-container {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -717,7 +791,33 @@ section {
   margin: 0;
 }
 
+.flow-content-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+}
+
+.flow-image-side {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flow-mascot-img {
+  max-width: 320px;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 15px 30px rgba(108, 92, 231, 0.15));
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.flow-mascot-img:hover {
+  transform: translateY(-8px) rotate(-2deg);
+}
+
 .flow-steps {
+  flex: 1.2;
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -1084,6 +1184,16 @@ section {
 .font-railway { color: #9c27b0; border-color: rgba(156, 39, 176, 0.2); }
 .font-vercel { color: #000000; border-color: rgba(0, 0, 0, 0.2); }
 
+/* Dark mode overrides for readability */
+:global(body.dark) .font-security {
+  color: #70a1ff;
+  border-color: rgba(112, 161, 255, 0.3);
+}
+:global(body.dark) .font-vercel {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
 /* Download CTA Section */
 .download-section {
   background: var(--dd-gradient-primary);
@@ -1214,6 +1324,13 @@ section {
   }
   .slide-img {
     max-width: 200px;
+  }
+  .flow-content-wrapper {
+    flex-direction: column;
+    gap: 40px;
+  }
+  .flow-mascot-img {
+    max-width: 240px;
   }
   .carousel-btn {
     width: 40px;

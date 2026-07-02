@@ -14,12 +14,11 @@
           <a href="/#features" @click="handleNavClick($event, 'features')">Características</a>
           <a href="/#screenshots" @click="handleNavClick($event, 'screenshots')">Capturas</a>
           <a href="/#roadmap" @click="handleNavClick($event, 'roadmap')">Roadmap</a>
-          <a href="/#download" @click="handleNavClick($event, 'download')">Descargar</a>
           <router-link to="/about">About</router-link>
           
           <!-- Dark Mode Toggle -->
           <button class="dark-mode-toggle" @click="darkMode.toggle()" aria-label="Toggle dark mode">
-            <ion-icon :icon="darkMode.isDark.value ? sunOutline : moonOutline" />
+            <ion-icon :icon="darkMode.isDark.value ? sunnyOutline : moonOutline" />
           </button>
 
           <div class="navbar-actions">
@@ -33,31 +32,30 @@
           <ion-icon :icon="isMenuOpen ? closeOutline : menuOutline" />
         </button>
       </div>
-
-      <!-- Mobile Dropdown Menu Drawer -->
-      <transition name="slide-down">
-        <div v-if="isMenuOpen" class="mobile-drawer" @click="closeMenu">
-          <nav class="mobile-links" @click.stop>
-            <a href="/#features" @click="handleNavClick($event, 'features')">Características</a>
-            <a href="/#screenshots" @click="handleNavClick($event, 'screenshots')">Capturas</a>
-            <a href="/#roadmap" @click="handleNavClick($event, 'roadmap')">Roadmap</a>
-            <a href="/#download" @click="handleNavClick($event, 'download')">Descargar</a>
-            <router-link to="/about" @click="closeMenu">About</router-link>
-            
-            <!-- Mobile Dark Mode Toggle -->
-            <div class="mobile-theme-row" @click="darkMode.toggle()">
-              <span>Modo oscuro</span>
-              <ion-icon :icon="darkMode.isDark.value ? sunOutline : moonOutline" />
-            </div>
-
-            <div class="mobile-actions">
-              <router-link to="/login" class="btn-landing btn-outline-landing" @click="closeMenu">Ingresar</router-link>
-              <router-link to="/register" class="btn-landing btn-primary-landing" @click="closeMenu">Registrarse</router-link>
-            </div>
-          </nav>
-        </div>
-      </transition>
     </header>
+
+    <!-- Mobile Dropdown Menu Drawer -->
+    <transition name="slide-down">
+      <div v-if="isMenuOpen" class="mobile-drawer" @click="closeMenu">
+        <nav class="mobile-links" @click.stop>
+          <a href="/#features" @click="handleNavClick($event, 'features')">Características</a>
+          <a href="/#screenshots" @click="handleNavClick($event, 'screenshots')">Capturas</a>
+          <a href="/#roadmap" @click="handleNavClick($event, 'roadmap')">Roadmap</a>
+          <router-link to="/about" @click="closeMenu">About</router-link>
+          
+          <!-- Mobile Dark Mode Toggle -->
+          <div class="mobile-theme-row" @click="darkMode.toggle()">
+            <span>Modo oscuro</span>
+            <ion-icon :icon="darkMode.isDark.value ? sunnyOutline : moonOutline" />
+          </div>
+
+          <div class="mobile-actions">
+            <router-link to="/login" class="btn-landing btn-outline-landing" @click="closeMenu">Ingresar</router-link>
+            <router-link to="/register" class="btn-landing btn-primary-landing" @click="closeMenu">Registrarse</router-link>
+          </div>
+        </nav>
+      </div>
+    </transition>
 
     <!-- Main Scrollable Content Area -->
     <ion-content :scroll-y="true" class="landing-content-scroll" id="landing-content-element">
@@ -81,7 +79,6 @@
             <div class="footer-col">
               <h4>Producto</h4>
               <a href="/#features" @click="handleNavClick($event, 'features')">Características</a>
-              <a href="/#download" @click="handleNavClick($event, 'download')">Descargar APK</a>
               <router-link to="/login">Probar Web App</router-link>
             </div>
             <div class="footer-col">
@@ -107,7 +104,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { IonPage, IonContent, IonIcon } from '@ionic/vue';
-import { menuOutline, closeOutline, sunOutline, moonOutline } from 'ionicons/icons';
+import { menuOutline, closeOutline, sunnyOutline, moonOutline } from 'ionicons/icons';
 import { useDarkMode } from '@/composables/useDarkMode';
 
 const router = useRouter();
@@ -286,10 +283,12 @@ function scrollToElement(id: string) {
   right: 0;
   bottom: 0;
   background: var(--dd-bg);
-  z-index: 999;
+  z-index: 1001;
   padding: 24px;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  overflow-y: auto;
 }
 
 .mobile-links {

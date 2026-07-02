@@ -2,6 +2,12 @@
   <ion-page>
     <ion-content :fullscreen="true" class="login-content">
       <div class="login-container">
+        <!-- Back to Landing Link -->
+        <router-link to="/" class="back-to-landing animate-fade-in-up">
+          <ion-icon :icon="arrowBackOutline" class="back-icon" />
+          <span>Volver al inicio</span>
+        </router-link>
+
         <!-- Logo & Branding -->
         <div class="brand-section animate-fade-in-up">
           <div class="brand-header-container">
@@ -88,7 +94,7 @@ import { useRouter } from 'vue-router';
 import { IonPage, IonContent, IonIcon, IonSpinner, toastController } from '@ionic/vue';
 import {
   mailOutline, lockClosedOutline, eyeOutline, eyeOffOutline,
-  alertCircleOutline, logoGoogle, logoFacebook,
+  alertCircleOutline, logoGoogle, logoFacebook, arrowBackOutline,
 } from 'ionicons/icons';
 import { useAuth } from '@/composables/useAuth';
 import { useAuthStore } from '@/stores/authStore';
@@ -454,5 +460,29 @@ async function handleSocialLogin(provider: string) {
 
 .social-icon {
   font-size: 20px;
+}
+
+.back-to-landing {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--dd-text-secondary);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.back-to-landing:hover {
+  color: var(--ion-color-primary);
+  transform: translateX(-4px);
+}
+
+.back-to-landing .back-icon {
+  font-size: 18px;
 }
 </style>
