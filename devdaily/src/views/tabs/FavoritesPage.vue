@@ -1,17 +1,8 @@
 <template>
   <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title class="page-title">Favoritos</ion-title>
-      </ion-toolbar>
-    </ion-header>
-
     <ion-content :fullscreen="true" class="favorites-content">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large" class="page-title-large">Favoritos ❤️</ion-title>
-        </ion-toolbar>
-      </ion-header>
+      <div class="favorites-container">
+        <h1 class="page-main-title animate-fade-in-up">Favoritos ❤️</h1>
 
       <!-- Search -->
       <div class="search-section" v-if="favoritesStore.favorites.length > 0">
@@ -52,13 +43,14 @@
           description="No encontramos favoritos que coincidan con tu búsqueda."
         />
       </div>
+      </div>
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon } from '@ionic/vue';
+import { IonPage, IonContent, IonIcon } from '@ionic/vue';
 import { searchOutline, closeCircle } from 'ionicons/icons';
 import AppContentCard from '@/components/content/AppContentCard.vue';
 import AppEmptyState from '@/components/common/AppEmptyState.vue';
@@ -87,12 +79,16 @@ onMounted(() => {
   --background: var(--dd-bg);
 }
 
-.page-title {
-  font-weight: 700;
+.page-main-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--dd-text);
+  margin: 0 16px 24px;
+  line-height: 1.2;
 }
 
-.page-title-large {
-  font-weight: 800;
+.favorites-container {
+  padding-top: calc(env(safe-area-inset-top) + 16px);
 }
 
 .search-section {

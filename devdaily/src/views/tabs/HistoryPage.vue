@@ -1,19 +1,8 @@
 <template>
   <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title class="page-title">Historial</ion-title>
-      </ion-toolbar>
-    </ion-header>
-
     <ion-content :fullscreen="true" class="history-content">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large" class="page-title-large">Historial 📅</ion-title>
-        </ion-toolbar>
-      </ion-header>
-
       <div class="history-container">
+        <h1 class="page-main-title animate-fade-in-up">Historial 📅</h1>
         <template v-if="historyStore.entries.length > 0">
           <div
             v-for="(entry, entryIdx) in historyStore.entries"
@@ -64,7 +53,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+import { IonPage, IonContent } from '@ionic/vue';
 import AppContentCard from '@/components/content/AppContentCard.vue';
 import AppEmptyState from '@/components/common/AppEmptyState.vue';
 import { useHistoryStore } from '@/stores/historyStore';
@@ -114,11 +103,17 @@ function getVisibleItems(entry: { date: string; items: any[] }) {
   --background: var(--dd-bg);
 }
 
-.page-title { font-weight: 700; }
-.page-title-large { font-weight: 800; }
+.page-main-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--dd-text);
+  margin: 0 0 24px;
+  line-height: 1.2;
+}
 
 .history-container {
-  padding: 0 16px 100px;
+  padding: 16px 16px 100px;
+  padding-top: calc(env(safe-area-inset-top) + 16px);
 }
 
 /* Timeline Day */

@@ -1,19 +1,8 @@
 <template>
   <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title class="page-title">Perfil</ion-title>
-      </ion-toolbar>
-    </ion-header>
-
     <ion-content :fullscreen="true" class="profile-content">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large" class="page-title-large">Perfil</ion-title>
-        </ion-toolbar>
-      </ion-header>
-
       <div class="profile-container">
+        <h1 class="page-main-title animate-fade-in-up">Perfil</h1>
         <!-- User Card -->
         <div class="user-card animate-fade-in-up">
           <div class="user-avatar">
@@ -110,7 +99,7 @@
 import { computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import {
-  IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
+  IonPage, IonContent,
   IonIcon, IonToggle,
 } from '@ionic/vue';
 import {
@@ -155,11 +144,17 @@ function handleLogout() {
   --background: var(--dd-bg);
 }
 
-.page-title { font-weight: 700; }
-.page-title-large { font-weight: 800; }
+.page-main-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--dd-text);
+  margin: 0 0 24px;
+  line-height: 1.2;
+}
 
 .profile-container {
-  padding: 0 16px 100px;
+  padding: 16px 16px 100px;
+  padding-top: calc(env(safe-area-inset-top) + 16px);
 }
 
 /* User Card */

@@ -9,7 +9,7 @@
         <!-- Header -->
         <div class="home-header animate-fade-in-up">
           <div class="greeting-section">
-            <h1 class="greeting">¡Hola, {{ userName }}! 👋</h1>
+            <h1 class="greeting">¡Hola, {{ userName }}!&nbsp;👋</h1>
             <p class="date-text">{{ formattedDate }}</p>
           </div>
           <div class="header-logo">
@@ -124,10 +124,16 @@ onMounted(() => {
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 20px;
+  gap: 16px;
+}
+
+.greeting-section {
+  flex: 1;
+  min-width: 0;
 }
 
 .greeting {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 800;
   color: var(--dd-text);
   margin: 0;
