@@ -165,7 +165,7 @@ async function handleSocialRegister(provider: string) {
       await toast.present();
       
       if (authStore.onboardingCompleted) {
-        router.replace('/tabs/home');
+        router.replace('/app/home');
       } else {
         router.replace('/onboarding');
       }

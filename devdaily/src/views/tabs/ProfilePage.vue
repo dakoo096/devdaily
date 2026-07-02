@@ -24,8 +24,12 @@
         <!-- Stats Grid -->
         <div class="stats-grid animate-fade-in-up stagger-1">
           <div class="stat-card">
-            <span class="stat-value">{{ stats.contentsRead }}</span>
+            <span class="stat-value">{{ contentsReadCount }}</span>
             <span class="stat-label">Leídos</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value">{{ favoritesCount }}</span>
+            <span class="stat-label">Favoritos</span>
           </div>
           <div class="stat-card">
             <span class="stat-value">{{ stats.quizzesCompleted }}</span>
@@ -38,6 +42,10 @@
           <div class="stat-card">
             <span class="stat-value">🔥 {{ stats.longestStreak }}</span>
             <span class="stat-label">Racha Máx</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-value">{{ daysActiveCount }}</span>
+            <span class="stat-label">Días activos</span>
           </div>
         </div>
 
@@ -215,6 +223,18 @@ const xpInCurrentLevel = computed(() => {
 
 const xpProgressPercent = computed(() => {
   return stats.value.xp % 100;
+});
+
+const contentsReadCount = computed(() => {
+  return stats.value.contentsRead || historyStore.entries.reduce((acc, entry) => acc + entry.items.length, 0) || historyStore.totalViewed;
+});
+
+const favoritesCount = computed(() => {
+  return stats.value.favorites || favoritesStore.count;
+});
+
+const daysActiveCount = computed(() => {
+  return stats.value.daysActive || historyStore.daysActive;
 });
 
 async function loadProfileData() {

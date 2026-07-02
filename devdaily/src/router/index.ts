@@ -1,11 +1,24 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
-import TabsPage from '@/views/tabs/TabsPage.vue';
+import AppLayout from '@/layouts/AppLayout.vue';
+import LandingLayout from '@/layouts/LandingLayout.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    redirect: '/login',
+    component: LandingLayout,
+    children: [
+      {
+        path: '',
+        name: 'Landing',
+        component: () => import('@/views/landing/LandingPage.vue'),
+      },
+      {
+        path: 'about',
+        name: 'About',
+        component: () => import('@/views/landing/AboutPage.vue'),
+      }
+    ]
   },
   {
     path: '/login',
@@ -26,13 +39,13 @@ const routes: Array<RouteRecordRaw> = [
     meta: { requiresAuth: true },
   },
   {
-    path: '/tabs/',
-    component: TabsPage,
+    path: '/app/',
+    component: AppLayout,
     meta: { requiresAuth: true, requiresOnboarding: true },
     children: [
       {
         path: '',
-        redirect: '/tabs/home',
+        redirect: '/app/home',
       },
       {
         path: 'home',
@@ -103,7 +116,7 @@ router.beforeEach((to, _from, next) => {
     if (!onboardingCompleted) {
       return next('/onboarding');
     }
-    return next('/tabs/home');
+    return next('/app/home');
   }
 
   // Auth required routes

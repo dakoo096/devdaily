@@ -345,7 +345,7 @@ function getOptionText(qId: number, oId: number): string {
 }
 
 function goHome() {
-  router.replace('/tabs/home');
+  router.replace('/app/home');
 }
 
 function handleExit() {

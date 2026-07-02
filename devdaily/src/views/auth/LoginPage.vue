@@ -119,7 +119,7 @@ async function handleLogin() {
     await toast.present();
 
     if (authStore.onboardingCompleted) {
-      router.replace('/tabs/home');
+      router.replace('/app/home');
     } else {
       router.replace('/onboarding');
     }
@@ -141,7 +141,7 @@ async function handleSocialLogin(provider: string) {
       await toast.present();
 
       if (authStore.onboardingCompleted) {
-        router.replace('/tabs/home');
+        router.replace('/app/home');
       } else {
         router.replace('/onboarding');
       }

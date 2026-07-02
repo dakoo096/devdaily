@@ -3,7 +3,7 @@
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button default-href="/tabs/profile" text="Atrás" />
+          <ion-back-button default-href="/app/profile" text="Atrás" />
         </ion-buttons>
         <ion-title>Notificaciones</ion-title>
       </ion-toolbar>

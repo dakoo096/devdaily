@@ -176,7 +176,7 @@ function handleNext() {
     settingsStore.updateTechnologies(selectedTechnologies.value);
     settingsStore.updateLevel(selectedLevel.value);
     settingsStore.completeOnboarding();
-    router.replace('/tabs/home');
+    router.replace('/app/home');
   }
 }
 
