@@ -4,6 +4,11 @@ export interface User {
   email: string;
   avatar?: string;
   createdAt: string;
+  devXp?: number;
+  devLevel?: number;
+  currentStreak?: number;
+  longestStreak?: number;
+  lastQuizDate?: string;
 }
 
 export interface LoginCredentials {

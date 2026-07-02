@@ -17,4 +17,7 @@ public interface HistoryRepository extends JpaRepository<History, Long> {
 
     @Query("SELECT COUNT(DISTINCT h.viewDate) FROM History h WHERE h.user.id = :userId")
     long countDistinctDaysActive(@Param("userId") Long userId);
+
+    @Query("SELECT COUNT(h) FROM History h WHERE h.user.id = :userId AND h.content.technology = :tech")
+    long countByUserIdAndTechnology(@Param("userId") Long userId, @Param("tech") com.devdaily.api.enums.Technology tech);
 }

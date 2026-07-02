@@ -5,6 +5,7 @@ import type { ContentType, Area, Technology, Level } from '@/types/content';
 import { DEFAULT_PREFERENCES } from '@/types/settings';
 import { api } from '@/services/api';
 import { useAuthStore } from './authStore';
+import { LocalNotifications } from '@capacitor/local-notifications';
 
 export const useSettingsStore = defineStore('settings', () => {
   const preferences = ref<UserPreferences>({ ...DEFAULT_PREFERENCES });
@@ -28,6 +29,8 @@ export const useSettingsStore = defineStore('settings', () => {
       preferences.value.notificationsEnabled = settings.notificationsEnabled;
       preferences.value.notificationTime = settings.notificationTime;
       preferences.value.onboardingCompleted = true;
+
+      await syncLocalNotifications();
     } catch (e) {
       console.error('Error fetching settings from backend', e);
     }
@@ -86,24 +89,66 @@ export const useSettingsStore = defineStore('settings', () => {
     await saveSettingsToServer();
   }
 
+  async function syncLocalNotifications() {
+    try {
+      // Cancel previous notification
+      await LocalNotifications.cancel({ notifications: [{ id: 1 }] });
+
+      if (preferences.value.notificationsEnabled) {
+        const permission = await LocalNotifications.requestPermissions();
+        if (permission.display === 'granted') {
+          const timeStr = preferences.value.notificationTime || '09:00';
+          const [hoursStr, minutesStr] = timeStr.split(':');
+          const hour = parseInt(hoursStr, 10);
+          const minute = parseInt(minutesStr, 10);
+
+          await LocalNotifications.schedule({
+            notifications: [
+              {
+                title: '⚡ DevDaily',
+                body: '¡Tu dosis diaria de desarrollo está lista! 🌅',
+                id: 1,
+                schedule: {
+                  on: {
+                    hour,
+                    minute
+                  },
+                  repeats: true,
+                  allowWhileIdle: true
+                }
+              }
+            ]
+          });
+          console.log(`Notification scheduled daily at ${hour}:${minute}`);
+        }
+      }
+    } catch (e) {
+      console.warn('Capacitor local notifications not available or blocked:', e);
+    }
+  }
+
   async function toggleNotifications() {
     preferences.value.notificationsEnabled = !preferences.value.notificationsEnabled;
     await saveSettingsToServer();
+    await syncLocalNotifications();
   }
 
   async function setNotificationTime(time: string) {
     preferences.value.notificationTime = time;
     await saveSettingsToServer();
+    await syncLocalNotifications();
   }
 
   async function completeOnboarding() {
     preferences.value.onboardingCompleted = true;
     await savePreferencesToServer();
     await saveSettingsToServer();
+    await syncLocalNotifications();
   }
 
   function resetPreferences() {
     preferences.value = { ...DEFAULT_PREFERENCES };
+    LocalNotifications.cancel({ notifications: [{ id: 1 }] }).catch(() => {});
   }
 
   return {

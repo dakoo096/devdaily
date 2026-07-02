@@ -38,6 +38,7 @@ defineEmits<{
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   user-select: none;
   -webkit-user-select: none;
+  flex-shrink: 0;
 }
 
 .app-chip:active {

@@ -57,6 +57,12 @@ const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
+    path: '/quiz/daily',
+    name: 'DailyQuiz',
+    component: () => import('@/views/quiz/DailyQuizPage.vue'),
+    meta: { requiresAuth: true, requiresOnboarding: true },
+  },
+  {
     path: '/settings/profile',
     name: 'EditProfile',
     component: () => import('@/views/settings/EditProfilePage.vue'),

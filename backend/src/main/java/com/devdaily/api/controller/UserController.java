@@ -16,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import com.devdaily.api.dto.user.UserAchievementResponse;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
@@ -65,5 +67,11 @@ public class UserController {
     @Operation(summary = "Get user activity statistics (days active, favorites, read counts)")
     public ResponseEntity<UserStatsResponse> getStats(@AuthenticationPrincipal CustomUserDetails userDetails) {
         return ResponseEntity.ok(userService.getUserStats(userDetails.getId()));
+    }
+
+    @GetMapping("/achievements")
+    @Operation(summary = "Get user achievements and unlock status")
+    public ResponseEntity<List<UserAchievementResponse>> getAchievements(@AuthenticationPrincipal CustomUserDetails userDetails) {
+        return ResponseEntity.ok(userService.getAchievements(userDetails.getId()));
     }
 }

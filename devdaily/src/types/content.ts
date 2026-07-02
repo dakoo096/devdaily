@@ -72,22 +72,16 @@ export const TECHNOLOGY_LABELS: Record<Technology, string> = {
   postgresql: 'PostgreSQL',
 };
 
-export const LEVEL_LABELS: Record<string, string> = {
+export const LEVEL_LABELS: Record<Level, string> = {
   student: 'Estudiante',
   junior: 'Junior',
   'semi-senior': 'Semi Senior',
   senior: 'Senior',
-  beginner: 'Principiante',
-  intermediate: 'Intermedio',
-  advanced: 'Avanzado',
 };
 
-export const LEVEL_EMOJIS: Record<string, string> = {
+export const LEVEL_EMOJIS: Record<Level, string> = {
   student: '🎓',
   junior: '🌱',
   'semi-senior': '🌿',
   senior: '🌳',
-  beginner: '🌱',
-  intermediate: '🌿',
-  advanced: '🌳',
 };
