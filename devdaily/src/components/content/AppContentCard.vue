@@ -197,4 +197,28 @@ function onToggleFavorite() {
   background: rgba(var(--ion-color-tertiary-rgb), 0.08);
   color: var(--ion-color-tertiary);
 }
+
+@media (min-width: 1024px) {
+  .content-card {
+    padding: 24px;
+    margin-bottom: 20px;
+    border-radius: var(--dd-radius-md);
+  }
+  
+  .content-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--dd-shadow-md);
+    border-color: var(--ion-color-primary);
+  }
+  
+  .card-title {
+    font-size: 19px;
+    margin-bottom: 10px;
+  }
+  
+  .card-body {
+    font-size: 15px;
+    margin-bottom: 20px;
+  }
+}
 </style>

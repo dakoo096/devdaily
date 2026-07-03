@@ -4,68 +4,70 @@
       <div class="favorites-container">
         <h1 class="page-main-title animate-fade-in-up">Favoritos ❤️</h1>
 
-      <!-- Search -->
-      <div class="search-section" v-if="favoritesStore.favorites.length > 0">
-        <div class="search-wrapper">
-          <ion-icon :icon="searchOutline" class="search-icon" />
-          <input
-            v-model="searchQuery"
-            type="text"
-            placeholder="Buscar en favoritos..."
-            class="search-input"
-          />
-          <button v-if="searchQuery" class="clear-search" @click="searchQuery = ''">
-            <ion-icon :icon="closeCircle" />
-          </button>
+        <!-- Search -->
+        <div class="search-section" v-if="favoritesStore.favorites.length > 0">
+          <div class="search-wrapper">
+            <ion-icon :icon="searchOutline" class="search-icon" />
+            <input
+              v-model="searchStore.query"
+              type="text"
+              placeholder="Buscar en favoritos..."
+              class="search-input"
+            />
+            <button v-if="searchStore.query" class="clear-search" @click="searchStore.clear">
+              <ion-icon :icon="closeCircle" />
+            </button>
+          </div>
         </div>
-      </div>
 
-      <!-- Content -->
-      <div class="favorites-list">
-        <AppContentCard
-          v-for="(item, index) in filteredFavorites"
-          :key="item.id"
-          :item="item"
-          :class="`animate-fade-in-up stagger-${Math.min(index + 1, 8)}`"
-        />
+        <!-- Content -->
+        <div class="favorites-list">
+          <AppContentCard
+            v-for="(item, index) in filteredFavorites"
+            :key="item.id"
+            :item="item"
+            :class="`animate-fade-in-up stagger-${Math.min(index + 1, 8)}`"
+          />
 
-        <AppEmptyState
-          v-if="favoritesStore.favorites.length === 0"
-          emoji="💜"
-          title="Sin favoritos aún"
-          description="Los contenidos que marques con ❤️ aparecerán aquí para que los consultes cuando quieras."
-        />
+          <AppEmptyState
+            v-if="favoritesStore.favorites.length === 0"
+            emoji="💜"
+            title="Sin favoritos aún"
+            description="Los contenidos que marques con ❤️ aparecerán aquí para que los consultes cuando quieras."
+          />
 
-        <AppEmptyState
-          v-else-if="filteredFavorites.length === 0"
-          emoji="🔍"
-          title="Sin resultados"
-          description="No encontramos favoritos que coincidan con tu búsqueda."
-        />
-      </div>
+          <AppEmptyState
+            v-else-if="filteredFavorites.length === 0"
+            emoji="🔍"
+            title="Sin resultados"
+            description="No encontramos favoritos que coincidan con tu búsqueda."
+          />
+        </div>
       </div>
     </ion-content>
   </ion-page>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 import { IonPage, IonContent, IonIcon } from '@ionic/vue';
 import { searchOutline, closeCircle } from 'ionicons/icons';
 import AppContentCard from '@/components/content/AppContentCard.vue';
 import AppEmptyState from '@/components/common/AppEmptyState.vue';
 import { useFavoritesStore } from '@/stores/favoritesStore';
+import { useSearchStore } from '@/stores/searchStore';
 
 const favoritesStore = useFavoritesStore();
-const searchQuery = ref('');
+const searchStore = useSearchStore();
 
 const filteredFavorites = computed(() => {
-  if (!searchQuery.value) return favoritesStore.favorites;
-  const q = searchQuery.value.toLowerCase();
+  if (!searchStore.query) return favoritesStore.favorites;
+  const q = searchStore.query.toLowerCase();
   return favoritesStore.favorites.filter(
     item =>
       item.title.toLowerCase().includes(q) ||
-      item.body.toLowerCase().includes(q)
+      item.body.toLowerCase().includes(q) ||
+      item.technology.toLowerCase().includes(q)
   );
 });
 
@@ -138,5 +140,27 @@ onMounted(() => {
 
 .favorites-list {
   padding: 0 16px 100px;
+}
+
+/* Desktop styles */
+@media (min-width: 1024px) {
+  .favorites-container {
+    padding-top: 0;
+  }
+  
+  .page-main-title {
+    display: none;
+  }
+  
+  .search-section {
+    display: none !important;
+  }
+  
+  .favorites-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+    padding: 0 0 60px;
+  }
 }
 </style>

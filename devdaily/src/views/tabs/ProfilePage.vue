@@ -3,141 +3,153 @@
     <ion-content :fullscreen="true" class="profile-content">
       <div class="profile-container">
         <h1 class="page-main-title animate-fade-in-up">Perfil</h1>
-        <!-- User Card -->
-        <div class="user-card animate-fade-in-up">
-          <div class="user-avatar">
-            <span>{{ userInitials }}</span>
-          </div>
-          <h2 class="user-name">{{ authStore.user?.name || 'Developer' }}</h2>
-          <p class="user-email">{{ authStore.user?.email || '' }}</p>
 
-          <!-- Developer level badge and XP bar -->
-          <div class="level-container">
-            <div class="level-badge">Developer Lv. {{ stats.level }}</div>
-            <div class="xp-bar-container">
-              <div class="xp-bar-fill" :style="{ width: `${xpProgressPercent}%` }"></div>
-            </div>
-            <div class="xp-text">{{ xpInCurrentLevel }} / 100 XP</div>
-          </div>
-        </div>
-
-        <!-- Stats Grid -->
-        <div class="stats-grid animate-fade-in-up stagger-1">
-          <div class="stat-card">
-            <span class="stat-value">{{ contentsReadCount }}</span>
-            <span class="stat-label">Leídos</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-value">{{ favoritesCount }}</span>
-            <span class="stat-label">Favoritos</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-value">{{ stats.quizzesCompleted }}</span>
-            <span class="stat-label">Quizzes</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-value">{{ stats.accuracy }}%</span>
-            <span class="stat-label">Precisión</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-value">🔥 {{ stats.longestStreak }}</span>
-            <span class="stat-label">Racha Máx</span>
-          </div>
-          <div class="stat-card">
-            <span class="stat-value">{{ daysActiveCount }}</span>
-            <span class="stat-label">Días activos</span>
-          </div>
-        </div>
-
-        <!-- Achievements Section -->
-        <div class="achievements-section animate-fade-in-up stagger-2">
-          <h3 class="section-title">Logros</h3>
-          <div class="achievements-list">
-            <div v-for="ach in achievements.slice(0, 3)" :key="ach.keyName" class="achievement-card"
-              :class="{ locked: !ach.unlocked }">
-              <div class="achievement-icon">
-                {{ getAchievementEmoji(ach.keyName) }}
+        <div class="profile-grid">
+          
+          <!-- Left Column (User Card & Settings) -->
+          <div class="profile-side-column">
+            <!-- User Card -->
+            <div class="user-card animate-fade-in-up">
+              <div class="user-avatar">
+                <span>{{ userInitials }}</span>
               </div>
-              <div class="achievement-info">
-                <div class="achievement-title-row">
-                  <span class="achievement-name">{{ ach.title }}</span>
-                  <span v-if="ach.unlocked" class="achievement-date">🔓 Desbloqueado</span>
+              <h2 class="user-name">{{ authStore.user?.name || 'Developer' }}</h2>
+              <p class="user-email">{{ authStore.user?.email || '' }}</p>
+
+              <!-- Developer level badge and XP bar -->
+              <div class="level-container">
+                <div class="level-badge">Developer Lv. {{ displayLevel }}</div>
+                <div class="xp-bar-container">
+                  <div class="xp-bar-fill" :style="{ width: `${xpProgressPercent}%` }"></div>
                 </div>
-                <p class="achievement-desc">{{ ach.description }}</p>
-                <div class="achievement-reward">
-                  <span class="reward-xp">+{{ ach.xpReward }} Dev XP</span>
+                <div class="xp-text">{{ xpInCurrentLevel }} / 100 XP</div>
+              </div>
+            </div>
+
+            <!-- Settings List -->
+            <div class="settings-section animate-fade-in-up stagger-1">
+              <h3 class="section-title">Configuración</h3>
+
+              <!-- Dark Mode -->
+              <div class="setting-item" @click="darkMode.toggle()">
+                <div class="setting-left">
+                  <div class="setting-icon-wrap" style="background: linear-gradient(135deg, #2D3436, #636E72);">
+                    <ion-icon :icon="moonOutline" />
+                  </div>
+                  <span class="setting-label">Modo oscuro</span>
+                </div>
+                <ion-toggle :checked="darkMode.isDark.value" style="pointer-events: none;" />
+              </div>
+
+              <!-- Notifications -->
+              <div class="setting-item" @click="router.push('/settings/notifications')">
+                <div class="setting-left">
+                  <div class="setting-icon-wrap" style="background: linear-gradient(135deg, #E17055, #FDCB6E);">
+                    <ion-icon :icon="notificationsOutline" />
+                  </div>
+                  <span class="setting-label">Notificaciones</span>
+                </div>
+                <ion-icon :icon="chevronForward" class="setting-arrow" />
+              </div>
+
+              <!-- Edit Preferences -->
+              <div class="setting-item" @click="router.push('/onboarding')">
+                <div class="setting-left">
+                  <div class="setting-icon-wrap" style="background: var(--dd-gradient-primary);">
+                    <ion-icon :icon="optionsOutline" />
+                  </div>
+                  <span class="setting-label">Editar preferencias</span>
+                </div>
+                <ion-icon :icon="chevronForward" class="setting-arrow" />
+              </div>
+
+              <!-- Edit Profile -->
+              <div class="setting-item" @click="router.push('/settings/profile')">
+                <div class="setting-left">
+                  <div class="setting-icon-wrap" style="background: var(--dd-gradient-turquoise);">
+                    <ion-icon :icon="createOutline" />
+                  </div>
+                  <span class="setting-label">Editar perfil</span>
+                </div>
+                <ion-icon :icon="chevronForward" class="setting-arrow" />
+              </div>
+            </div>
+
+            <!-- Logout -->
+            <div class="logout-section animate-fade-in-up stagger-2">
+              <button class="logout-button" @click="handleLogout">
+                <ion-icon :icon="logOutOutline" />
+                <span>Cerrar Sesión</span>
+              </button>
+            </div>
+
+            <!-- App Version -->
+            <p class="app-version">DevDaily v1.0.0</p>
+          </div>
+
+          <!-- Right Column (Stats Grid & Achievements) -->
+          <div class="profile-main-column">
+            <!-- Stats Grid -->
+            <div class="stats-grid animate-fade-in-up">
+              <div class="stat-card">
+                <span class="stat-value">{{ contentsReadCount }}</span>
+                <span class="stat-label">Leídos</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-value">{{ favoritesCount }}</span>
+                <span class="stat-label">Favoritos</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-value">{{ stats.quizzesCompleted }}</span>
+                <span class="stat-label">Quizzes</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-value">{{ stats.accuracy }}%</span>
+                <span class="stat-label">Precisión</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-value">🔥 {{ stats.longestStreak }}</span>
+                <span class="stat-label">Racha Máx</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-value">{{ daysActiveCount }}</span>
+                <span class="stat-label">Días activos</span>
+              </div>
+            </div>
+
+            <!-- Achievements Section -->
+            <div class="achievements-section animate-fade-in-up stagger-1">
+              <h3 class="section-title">Logros</h3>
+              <div class="achievements-list">
+                <div v-for="ach in achievements.slice(0, 4)" :key="ach.keyName" class="achievement-card"
+                  :class="{ locked: !ach.unlocked }">
+                  <div class="achievement-icon">
+                    {{ getAchievementEmoji(ach.keyName) }}
+                  </div>
+                  <div class="achievement-info">
+                    <div class="achievement-title-row">
+                      <span class="achievement-name">{{ ach.title }}</span>
+                      <span v-if="ach.unlocked" class="achievement-date">🔓 Desbloqueado</span>
+                    </div>
+                    <p class="achievement-desc">{{ ach.description }}</p>
+                    <div class="achievement-reward">
+                      <span class="reward-xp">+{{ ach.xpReward }} Dev XP</span>
+                    </div>
+                  </div>
                 </div>
               </div>
+
+              <div v-if="achievements.length > 4" class="see-all-achievements-container">
+                <button class="see-all-btn" @click="showAllAchievementsModal = true">
+                  <span>Ver todos los logros ({{ achievements.length }})</span>
+                  <ion-icon :icon="chevronForward" />
+                </button>
+              </div>
             </div>
           </div>
 
-          <div v-if="achievements.length > 3" class="see-all-achievements-container">
-            <button class="see-all-btn" @click="showAllAchievementsModal = true">
-              <span>Ver todos los logros ({{ achievements.length }})</span>
-              <ion-icon :icon="chevronForward" />
-            </button>
-          </div>
         </div>
 
-        <!-- Settings List -->
-        <div class="settings-section animate-fade-in-up stagger-2">
-          <h3 class="section-title">Configuración</h3>
-
-          <!-- Dark Mode -->
-          <div class="setting-item" @click="darkMode.toggle()">
-            <div class="setting-left">
-              <div class="setting-icon-wrap" style="background: linear-gradient(135deg, #2D3436, #636E72);">
-                <ion-icon :icon="moonOutline" />
-              </div>
-              <span class="setting-label">Modo oscuro</span>
-            </div>
-            <ion-toggle :checked="darkMode.isDark.value" style="pointer-events: none;" />
-          </div>
-
-          <!-- Notifications -->
-          <div class="setting-item" @click="router.push('/settings/notifications')">
-            <div class="setting-left">
-              <div class="setting-icon-wrap" style="background: linear-gradient(135deg, #E17055, #FDCB6E);">
-                <ion-icon :icon="notificationsOutline" />
-              </div>
-              <span class="setting-label">Notificaciones</span>
-            </div>
-            <ion-icon :icon="chevronForward" class="setting-arrow" />
-          </div>
-
-          <!-- Edit Preferences -->
-          <div class="setting-item" @click="router.push('/onboarding')">
-            <div class="setting-left">
-              <div class="setting-icon-wrap" style="background: var(--dd-gradient-primary);">
-                <ion-icon :icon="optionsOutline" />
-              </div>
-              <span class="setting-label">Editar preferencias</span>
-            </div>
-            <ion-icon :icon="chevronForward" class="setting-arrow" />
-          </div>
-
-          <!-- Edit Profile -->
-          <div class="setting-item" @click="router.push('/settings/profile')">
-            <div class="setting-left">
-              <div class="setting-icon-wrap" style="background: var(--dd-gradient-turquoise);">
-                <ion-icon :icon="createOutline" />
-              </div>
-              <span class="setting-label">Editar perfil</span>
-            </div>
-            <ion-icon :icon="chevronForward" class="setting-arrow" />
-          </div>
-        </div>
-
-        <!-- Logout -->
-        <div class="logout-section animate-fade-in-up stagger-3">
-          <button class="logout-button" @click="handleLogout">
-            <ion-icon :icon="logOutOutline" />
-            <span>Cerrar Sesión</span>
-          </button>
-        </div>
-
-        <!-- App Version -->
-        <p class="app-version">DevDaily v1.0.0</p>
       </div>
 
       <!-- All Achievements Modal -->
@@ -177,7 +189,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import {
   IonPage, IonHeader, IonToolbar, IonTitle, IonContent,
@@ -192,6 +204,8 @@ import { useAuthStore } from '@/stores/authStore';
 import { useSettingsStore } from '@/stores/settingsStore';
 import { useFavoritesStore } from '@/stores/favoritesStore';
 import { useHistoryStore } from '@/stores/historyStore';
+import { useSearchStore } from '@/stores/searchStore';
+import { useLayout } from '@/composables/useLayout';
 import { useDarkMode } from '@/composables/useDarkMode';
 import { api } from '@/services/api';
 
@@ -200,6 +214,8 @@ const authStore = useAuthStore();
 const settingsStore = useSettingsStore();
 const favoritesStore = useFavoritesStore();
 const historyStore = useHistoryStore();
+const searchStore = useSearchStore();
+useLayout();
 const darkMode = useDarkMode();
 
 const showAllAchievementsModal = ref(false);
@@ -217,12 +233,18 @@ const stats = ref<any>({
 
 const achievements = ref<any[]>([]);
 
+const displayLevel = computed(() => {
+  return authStore.user?.devLevel || stats.value.level || 1;
+});
+
 const xpInCurrentLevel = computed(() => {
-  return stats.value.xp % 100;
+  const xp = authStore.user?.devXp !== undefined ? authStore.user.devXp : (stats.value.xp || 0);
+  return xp % 100;
 });
 
 const xpProgressPercent = computed(() => {
-  return stats.value.xp % 100;
+  const xp = authStore.user?.devXp !== undefined ? authStore.user.devXp : (stats.value.xp || 0);
+  return xp % 100;
 });
 
 const contentsReadCount = computed(() => {
@@ -266,6 +288,7 @@ onIonViewWillEnter(() => {
   historyStore.fetchHistory();
   settingsStore.fetchSettingsFromServer();
   favoritesStore.fetchFavorites();
+  searchStore.clear(); // Clear search box when moving into Profile page
   loadProfileData();
 });
 
@@ -279,6 +302,7 @@ async function handleLogout() {
   settingsStore.resetPreferences();
   favoritesStore.clearAll();
   historyStore.clearHistory();
+  searchStore.clear();
 
   const toast = await toastController.create({
     message: 'Sesión cerrada correctamente.',
@@ -290,6 +314,10 @@ async function handleLogout() {
 
   router.replace('/login');
 }
+
+onMounted(() => {
+  loadProfileData();
+});
 </script>
 
 <style scoped>
@@ -297,12 +325,12 @@ async function handleLogout() {
   --background: var(--dd-bg);
 }
 
-.page-title {
-  font-weight: 700;
-}
-
-.page-title-large {
+.page-main-title {
+  font-size: 28px;
   font-weight: 800;
+  color: var(--dd-text);
+  margin: 0 16px 24px;
+  line-height: 1.2;
 }
 
 .profile-container {
@@ -312,13 +340,15 @@ async function handleLogout() {
 
 /* User Card */
 .user-card {
-  text-align: center;
-  padding: 28px 20px;
   background: var(--dd-surface);
-  border-radius: var(--dd-radius-lg);
   border: 1px solid var(--dd-border);
+  border-radius: var(--dd-radius-lg);
+  padding: 24px;
+  text-align: center;
+  margin-bottom: 24px;
   box-shadow: var(--dd-shadow-sm);
-  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
 }
 
 .user-avatar {
@@ -326,14 +356,14 @@ async function handleLogout() {
   height: 80px;
   border-radius: 50%;
   background: var(--dd-gradient-primary);
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 16px;
   font-size: 28px;
   font-weight: 800;
-  color: #fff;
-  box-shadow: 0 4px 16px rgba(108, 92, 231, 0.3);
+  box-shadow: 0 8px 24px rgba(108, 92, 231, 0.25);
 }
 
 .user-name {
@@ -346,234 +376,156 @@ async function handleLogout() {
 .user-email {
   font-size: 14px;
   color: var(--dd-text-secondary);
-  margin: 0;
+  margin: 0 0 20px;
 }
 
-/* Stats */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin-bottom: 24px;
-}
-
-.stat-card {
-  background: var(--dd-surface);
-  border-radius: var(--dd-radius-md);
-  border: 1px solid var(--dd-border);
-  padding: 14px 12px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.stat-value {
-  font-size: 28px;
-  font-weight: 800;
-  color: var(--ion-color-primary);
-}
-
-.stat-label {
-  font-size: 12px;
-  color: var(--dd-text-secondary);
-  font-weight: 500;
-}
-
-/* Settings */
-.section-title {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--dd-text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin: 0 0 12px;
-  padding-left: 4px;
-}
-
-.setting-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 16px;
-  background: var(--dd-surface);
-  border: 1px solid var(--dd-border);
-  border-radius: var(--dd-radius-md);
-  margin-bottom: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.setting-item:active {
-  transform: scale(0.98);
-  background: var(--dd-surface-hover);
-}
-
-.setting-left {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.setting-icon-wrap {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 18px;
-}
-
-.setting-label {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--dd-text);
-}
-
-.setting-arrow {
-  font-size: 18px;
-  color: var(--dd-text-secondary);
-}
-
-/* Logout */
-.logout-section {
-  margin-top: 24px;
-}
-
-.logout-button {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 16px;
-  background: none;
-  border: 2px solid var(--ion-color-danger);
-  border-radius: var(--dd-radius-md);
-  color: var(--ion-color-danger);
-  font-size: 15px;
-  font-weight: 600;
-  font-family: inherit;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.logout-button:active {
-  background: rgba(var(--ion-color-danger-rgb), 0.08);
-  transform: scale(0.98);
-}
-
-.logout-button ion-icon {
-  font-size: 20px;
-}
-
-/* Version */
-.app-version {
-  text-align: center;
-  font-size: 12px;
-  color: var(--dd-text-secondary);
-  margin-top: 24px;
-  opacity: 0.6;
-}
-
-/* Level and XP styling */
 .level-container {
-  margin-top: 14px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  max-width: 260px;
+  border-top: 1px solid var(--dd-border);
+  padding-top: 20px;
 }
 
 .level-badge {
+  display: inline-block;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--ion-color-primary);
   background: rgba(var(--ion-color-primary-rgb), 0.1);
-  padding: 4px 12px;
+  padding: 6px 14px;
   border-radius: var(--dd-radius-full);
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .xp-bar-container {
   width: 100%;
   height: 8px;
-  background: var(--dd-border);
+  background: var(--dd-bg);
   border-radius: var(--dd-radius-full);
   overflow: hidden;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .xp-bar-fill {
   height: 100%;
   background: var(--dd-gradient-primary);
   border-radius: var(--dd-radius-full);
-  transition: width 0.4s ease;
+  transition: width 0.5s ease;
 }
 
 .xp-text {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--dd-text-secondary);
 }
 
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: var(--dd-surface);
+  border: 1px solid var(--dd-border);
+  border-radius: var(--dd-radius-md);
+  padding: 16px;
+  text-align: center;
+  box-shadow: var(--dd-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--ion-color-primary);
+}
+
+.stat-value {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--dd-text);
+  line-height: 1.2;
+}
+
+.stat-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--dd-text-secondary);
+  text-transform: uppercase;
+  margin-top: 4px;
+  letter-spacing: 0.5px;
+}
+
 /* Achievements */
 .achievements-section {
+  background: var(--dd-surface);
+  border: 1px solid var(--dd-border);
+  border-radius: var(--dd-radius-lg);
+  padding: 24px;
   margin-bottom: 24px;
+  box-shadow: var(--dd-shadow-sm);
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--dd-text);
+  margin: 0 0 20px;
+  letter-spacing: -0.2px;
 }
 
 .achievements-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
 
 .achievement-card {
   display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  background: var(--dd-surface);
+  gap: 16px;
+  background: var(--dd-bg);
   border: 1px solid var(--dd-border);
   border-radius: var(--dd-radius-md);
   padding: 16px;
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
+}
+
+.achievement-card:hover {
+  border-color: var(--ion-color-primary);
 }
 
 .achievement-card.locked {
-  opacity: 0.65;
-  filter: grayscale(0.5);
-  border-color: rgba(var(--dd-border-rgb), 0.5);
+  opacity: 0.6;
 }
 
 .achievement-icon {
-  font-size: 32px;
-  line-height: 1;
-  padding: 8px;
-  background: rgba(var(--dd-border-rgb), 0.1);
-  border-radius: var(--dd-radius-sm);
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--dd-surface);
+  border: 1px solid var(--dd-border);
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.achievement-card:not(.locked) .achievement-icon {
-  background: rgba(var(--ion-color-primary-rgb), 0.08);
+  font-size: 24px;
+  flex-shrink: 0;
 }
 
 .achievement-info {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+  min-width: 0;
 }
 
 .achievement-title-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+  gap: 4px;
 }
 
 .achievement-name {
@@ -586,32 +538,28 @@ async function handleLogout() {
   font-size: 11px;
   font-weight: 700;
   color: var(--ion-color-success);
-  background: rgba(45, 211, 111, 0.08);
-  padding: 2px 6px;
-  border-radius: 4px;
 }
 
 .achievement-desc {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--dd-text-secondary);
-  margin: 0;
+  margin: 0 0 8px;
   line-height: 1.4;
 }
 
 .achievement-reward {
-  margin-top: 4px;
+  display: flex;
 }
 
 .reward-xp {
   font-size: 11px;
   font-weight: 700;
   color: var(--ion-color-primary);
-  background: rgba(var(--ion-color-primary-rgb), 0.06);
-  padding: 2px 6px;
+  background: rgba(var(--ion-color-primary-rgb), 0.1);
+  padding: 2px 8px;
   border-radius: 4px;
 }
 
-/* See All Achievements Button */
 .see-all-achievements-container {
   margin-top: 16px;
   display: flex;
@@ -619,43 +567,198 @@ async function handleLogout() {
 }
 
 .see-all-btn {
-  background: var(--dd-surface);
-  border: 1px solid var(--dd-border);
-  border-radius: var(--dd-radius-md);
-  padding: 12px 18px;
+  background: transparent;
+  border: none;
   color: var(--ion-color-primary);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  width: 100%;
-  justify-content: center;
+  padding: 8px 16px;
+  border-radius: var(--dd-radius-sm);
+  transition: background 0.2s ease;
+}
+
+.see-all-btn:hover {
+  background: rgba(var(--ion-color-primary-rgb), 0.08);
+}
+
+/* Settings */
+.settings-section {
+  background: var(--dd-surface);
+  border: 1px solid var(--dd-border);
+  border-radius: var(--dd-radius-lg);
+  padding: 24px;
+  margin-bottom: 24px;
   box-shadow: var(--dd-shadow-sm);
 }
 
-.see-all-btn:active {
-  transform: scale(0.98);
-  background: var(--dd-surface-hover);
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--dd-border);
+  cursor: pointer;
+  transition: padding-left 0.2s ease;
 }
 
-.see-all-btn ion-icon {
-  font-size: 16px;
+.setting-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
-/* Modal layout */
+.setting-item:first-of-type {
+  padding-top: 0;
+}
+
+.setting-item:hover {
+  padding-left: 4px;
+}
+
+.setting-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.setting-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 18px;
+}
+
+.setting-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--dd-text);
+}
+
+.setting-arrow {
+  font-size: 18px;
+  color: var(--dd-text-secondary);
+}
+
+/* Logout */
+.logout-section {
+  margin-bottom: 24px;
+}
+
+.logout-button {
+  width: 100%;
+  padding: 16px;
+  background: transparent;
+  border: 1px solid var(--dd-border);
+  border-radius: var(--dd-radius-md);
+  color: #ff7675;
+  font-size: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.logout-button:hover {
+  background: rgba(255, 118, 117, 0.08);
+  border-color: #ff7675;
+}
+
+.logout-button ion-icon {
+  font-size: 20px;
+}
+
+.app-version {
+  text-align: center;
+  font-size: 12px;
+  color: var(--dd-text-secondary);
+  opacity: 0.8;
+  margin: 0;
+}
+
+/* Achievements Modal */
 .achievements-modal {
   --background: var(--dd-bg);
+}
+
+.modal-toolbar {
+  --background: var(--dd-surface);
   --border-color: var(--dd-border);
-  --border-radius: 16px;
+}
+
+.modal-title {
+  color: var(--dd-text);
+  font-weight: 800;
+}
+
+.modal-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--ion-color-primary);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.modal-content {
+  --background: var(--dd-bg);
 }
 
 .modal-achievements-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding-bottom: 24px;
+  gap: 16px;
+  padding: 8px 0;
+}
+
+/* DESKTOP STYLING (>=1024px) */
+@media (min-width: 1024px) {
+  .profile-container {
+    padding: 0;
+  }
+  
+  .page-main-title {
+    display: none;
+  }
+
+  .profile-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+    gap: 32px;
+    align-items: start;
+    padding-bottom: 60px;
+  }
+  
+  .profile-side-column {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  .profile-main-column {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  .user-card {
+    margin-bottom: 0;
+  }
+  
+  .settings-section {
+    margin-bottom: 0;
+  }
+  
+  .logout-section {
+    margin-bottom: 0;
+  }
 }
 </style>

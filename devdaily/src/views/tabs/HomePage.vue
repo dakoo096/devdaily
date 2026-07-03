@@ -12,59 +12,163 @@
             <h1 class="greeting">¡Hola, {{ userName }}!&nbsp;👋</h1>
             <p class="date-text">{{ formattedDate }}</p>
           </div>
-          <div class="header-logo">
+          <div class="header-logo mobile-logo-only">
             <span>⚡</span>
           </div>
         </div>
 
-        <!-- Daily Quiz Banner -->
-        <div class="quiz-banner-card animate-fade-in-up" :class="{ completed: isQuizCompleted }" @click="goToQuiz">
-          <div class="quiz-banner-main">
-            <div class="quiz-banner-left">
-              <span class="quiz-banner-badge" :class="{ completed: isQuizCompleted }">
-                {{ isQuizCompleted ? 'COMPLETADO' : 'RETO DIARIO' }}
-              </span>
-              <h2 class="quiz-banner-title">
-                {{ isQuizCompleted ? '¡Reto de hoy completo! 🎉' : 'Quiz de Hoy 🧠' }}
-              </h2>
-              <p class="quiz-banner-desc">
-                {{ isQuizCompleted ? 'Volvé mañana para una nueva dosis de conocimiento.' : 'Responde 3 preguntas y gana Dev XP.' }}
-              </p>
+        <!-- Dashboard Grid (Adaptive via media queries) -->
+        <div class="dashboard-grid">
+          
+          <!-- Search Results View (Only visible on Desktop when typing a query) -->
+          <div v-if="isDesktop && searchStore.query" class="search-results-wrapper animate-fade-in-up">
+            <div class="search-results-header">
+              <h2 class="search-title">Resultados para "{{ searchStore.query }}"</h2>
+              <button class="clear-query-btn" @click="searchStore.clear">Limpiar</button>
             </div>
-            <div class="quiz-banner-right">
-              <div v-if="userStreak > 0" class="quiz-banner-streak">
-                <span class="streak-fire">🔥</span>
-                <span class="streak-count">{{ userStreak }}</span>
-              </div>
-              <div class="quiz-banner-play" :class="{ completed: isQuizCompleted }">
-                <ion-icon :icon="isQuizCompleted ? checkmarkCircle : chevronForward" />
-              </div>
+            
+            <div class="content-list">
+              <AppContentCard v-for="item in searchResults" :key="item.id" :item="item" />
+              
+              <AppEmptyState 
+                v-if="searchResults.length === 0" 
+                emoji="🔍" 
+                title="Sin resultados" 
+                description="Prueba con otra palabra clave o tecnología." 
+              />
             </div>
           </div>
-        </div>
 
-        <!-- Type Filter Chips -->
-        <div class="filter-section animate-fade-in-up stagger-1">
-          <div class="filter-scroll">
-            <AppChip label="Todos" :selected="!activeFilter" small @click="activeFilter = null" />
-            <AppChip v-for="type in settingsStore.preferences.contentTypes" :key="type"
-              :label="CONTENT_TYPE_LABELS[type]" :emoji="CONTENT_TYPE_EMOJIS[type]" :selected="activeFilter === type"
-              small @click="activeFilter = activeFilter === type ? null : type" />
+          <!-- Main Column (Left column in desktop, full width in mobile) -->
+          <div v-else class="dashboard-main-column">
+            
+            <!-- Quick Actions (Desktop only) -->
+            <QuickActions class="desktop-only animate-fade-in-up" />
+
+            <!-- Daily Quiz Banner (Visible on mobile/tablet, and nested elsewhere or styled on mobile) -->
+            <div class="quiz-banner-card mobile-only animate-fade-in-up" :class="{ completed: isQuizCompleted }" @click="goToQuiz">
+              <div class="quiz-banner-main">
+                <div class="quiz-banner-left">
+                  <span class="quiz-banner-badge" :class="{ completed: isQuizCompleted }">
+                    {{ isQuizCompleted ? 'COMPLETADO' : 'RETO DIARIO' }}
+                  </span>
+                  <h2 class="quiz-banner-title">
+                    {{ isQuizCompleted ? '¡Reto de hoy completo! 🎉' : 'Quiz de Hoy 🧠' }}
+                  </h2>
+                  <p class="quiz-banner-desc">
+                    {{ isQuizCompleted ? 'Volvé mañana para una nueva dosis de conocimiento.' : 'Responde 3 preguntas y gana Dev XP.' }}
+                  </p>
+                </div>
+                <div class="quiz-banner-right">
+                  <div v-if="userStreak > 0" class="quiz-banner-streak">
+                    <span class="streak-fire">🔥</span>
+                    <span class="streak-count">{{ userStreak }}</span>
+                  </div>
+                  <div class="quiz-banner-play" :class="{ completed: isQuizCompleted }">
+                    <ion-icon :icon="isQuizCompleted ? checkmarkCircle : chevronForward" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tip of the Day (Desktop only) -->
+            <div class="daily-tip-section desktop-only animate-fade-in-up stagger-1">
+              <div class="card-header-row">
+                <h3 class="side-card-title">💡 Lección Destacada del Día</h3>
+              </div>
+              <div v-if="contentStore.isLoading" class="skeleton-wrapper">
+                <ContentSkeleton />
+              </div>
+              <div v-else-if="tipOfDay" class="tip-content">
+                <AppContentCard :item="tipOfDay" />
+              </div>
+              <div v-else class="empty-tip-card">
+                <AppEmptyState emoji="💡" title="Lección leída" description="Has completado tus lecturas de hoy. ¡Sigue así!" />
+              </div>
+            </div>
+
+            <!-- Recent Activity Timeline (Desktop only) -->
+            <RecentActivityTimeline class="desktop-only animate-fade-in-up stagger-2" />
+
+            <!-- Mobile Only Section (Filter chips + content list) -->
+            <div class="mobile-only filter-and-list">
+              <!-- Type Filter Chips -->
+              <div class="filter-section animate-fade-in-up stagger-1">
+                <div class="filter-scroll">
+                  <AppChip label="Todos" :selected="!activeFilter" small @click="activeFilter = null" />
+                  <AppChip v-for="type in settingsStore.preferences.contentTypes" :key="type"
+                    :label="CONTENT_TYPE_LABELS[type]" :emoji="CONTENT_TYPE_EMOJIS[type]" :selected="activeFilter === type"
+                    small @click="activeFilter = activeFilter === type ? null : type" />
+                </div>
+              </div>
+
+              <!-- Loading Skeletons -->
+              <div v-if="contentStore.isLoading" class="content-list">
+                <ContentSkeleton v-for="i in 4" :key="i" />
+              </div>
+
+              <!-- Content Cards -->
+              <div v-else class="content-list">
+                <AppContentCard v-for="(item, index) in filteredContent" :key="item.id" :item="item"
+                  :class="`animate-fade-in-up stagger-${Math.min(index + 1, 8)}`" />
+
+                <AppEmptyState v-if="filteredContent.length === 0" emoji="🔍" title="No hay contenido"
+                  description="No encontramos contenido para este filtro. Prueba con otro tipo." />
+              </div>
+            </div>
+
           </div>
-        </div>
 
-        <!-- Loading Skeletons -->
-        <div v-if="contentStore.isLoading" class="content-list">
-          <ContentSkeleton v-for="i in 4" :key="i" />
-        </div>
+          <!-- Side Column (Right column in desktop, hidden in mobile) -->
+          <div v-if="!searchStore.query" class="dashboard-side-column desktop-only">
+            
+            <!-- Quiz del día (Desktop visual card) -->
+            <div class="quiz-banner-card animate-fade-in-up" :class="{ completed: isQuizCompleted }" @click="goToQuiz">
+              <div class="quiz-banner-main">
+                <div class="quiz-banner-left">
+                  <span class="quiz-banner-badge" :class="{ completed: isQuizCompleted }">
+                    {{ isQuizCompleted ? 'COMPLETADO' : 'RETO DIARIO' }}
+                  </span>
+                  <h2 class="quiz-banner-title">
+                    {{ isQuizCompleted ? '¡Reto de hoy completo! 🎉' : 'Quiz de Hoy 🧠' }}
+                  </h2>
+                  <p class="quiz-banner-desc">
+                    {{ isQuizCompleted ? 'Volvé mañana para una nueva dosis de conocimiento.' : 'Responde 3 preguntas y gana Dev XP.' }}
+                  </p>
+                </div>
+                <div class="quiz-banner-right">
+                  <div v-if="userStreak > 0" class="quiz-banner-streak">
+                    <span class="streak-fire">🔥</span>
+                    <span class="streak-count">{{ userStreak }}</span>
+                  </div>
+                  <div class="quiz-banner-play" :class="{ completed: isQuizCompleted }">
+                    <ion-icon :icon="isQuizCompleted ? checkmarkCircle : chevronForward" />
+                  </div>
+                </div>
+              </div>
+            </div>
 
-        <!-- Content Cards -->
-        <div v-else class="content-list">
-          <AppContentCard v-for="(item, index) in filteredContent" :key="item.id" :item="item"
-            :class="`animate-fade-in-up stagger-${Math.min(index + 1, 8)}`" />
+            <!-- Continue Learning -->
+            <ContinueLearning class="animate-fade-in-up stagger-1" />
 
-          <AppEmptyState v-if="filteredContent.length === 0" emoji="🔍" title="No hay contenido"
-            description="No encontramos contenido para este filtro. Prueba con otro tipo." />
+            <!-- Progress & Stats Grid -->
+            <DashboardStats class="animate-fade-in-up stagger-2" />
+
+            <!-- Favorite Technologies List -->
+            <div class="fav-techs-card animate-fade-in-up stagger-3">
+              <h4 class="side-card-title">Tecnologías Preferidas</h4>
+              <div class="tech-chips-list">
+                <span v-for="tech in settingsStore.preferences.technologies" :key="tech" class="tech-pill-badge">
+                  {{ techLabel(tech) }}
+                </span>
+                <span v-if="!settingsStore.preferences.technologies?.length" class="empty-techs-text">
+                  Ninguna seleccionada en tus preferencias.
+                </span>
+              </div>
+            </div>
+
+          </div>
+
         </div>
       </div>
     </ion-content>
@@ -83,13 +187,27 @@ import AppEmptyState from '@/components/common/AppEmptyState.vue';
 import { useContentStore } from '@/stores/contentStore';
 import { useSettingsStore } from '@/stores/settingsStore';
 import { useAuthStore } from '@/stores/authStore';
-import type { ContentType } from '@/types/content';
-import { CONTENT_TYPE_LABELS, CONTENT_TYPE_EMOJIS } from '@/types/content';
+import { useFavoritesStore } from '@/stores/favoritesStore';
+import { useHistoryStore } from '@/stores/historyStore';
+import { useSearchStore } from '@/stores/searchStore';
+import { useLayout } from '@/composables/useLayout';
+import type { ContentItem, ContentType, Technology } from '@/types/content';
+import { CONTENT_TYPE_LABELS, CONTENT_TYPE_EMOJIS, TECHNOLOGY_LABELS } from '@/types/content';
+
+// Desktop subcomponents
+import QuickActions from '@/components/desktop/QuickActions.vue';
+import DashboardStats from '@/components/desktop/DashboardStats.vue';
+import ContinueLearning from '@/components/desktop/ContinueLearning.vue';
+import RecentActivityTimeline from '@/components/desktop/RecentActivityTimeline.vue';
 
 const router = useRouter();
 const contentStore = useContentStore();
 const settingsStore = useSettingsStore();
 const authStore = useAuthStore();
+const favoritesStore = useFavoritesStore();
+const historyStore = useHistoryStore();
+const searchStore = useSearchStore();
+const { isDesktop } = useLayout();
 
 const activeFilter = ref<ContentType | null>(null);
 
@@ -113,13 +231,74 @@ const isQuizCompleted = computed(() => {
 });
 
 const filteredContent = computed(() => {
-  return contentStore.filterByType(activeFilter.value);
+  let items = contentStore.filterByType(activeFilter.value);
+  if (searchStore.query) {
+    const q = searchStore.query.toLowerCase();
+    items = items.filter(
+      item =>
+        item.title.toLowerCase().includes(q) ||
+        item.body.toLowerCase().includes(q) ||
+        item.technology.toLowerCase().includes(q)
+    );
+  }
+  return items;
 });
+
+const tipOfDay = computed(() => {
+  // Find first item in daily content that is a tip or concept
+  return contentStore.dailyContent.find(c => c.type === 'tip') || contentStore.dailyContent[0];
+});
+
+const searchResults = computed(() => {
+  if (!searchStore.query) return [];
+  const q = searchStore.query.toLowerCase();
+  
+  const results: ContentItem[] = [];
+  const seenIds = new Set<string>();
+
+  const addUnique = (item: ContentItem) => {
+    if (!seenIds.has(item.id)) {
+      seenIds.add(item.id);
+      results.push(item);
+    }
+  };
+
+  // 1. Search in Daily Content
+  contentStore.dailyContent.forEach(item => {
+    if (item.title.toLowerCase().includes(q) || item.body.toLowerCase().includes(q) || item.technology.toLowerCase().includes(q)) {
+      addUnique(item);
+    }
+  });
+
+  // 2. Search in Favorites
+  favoritesStore.favorites.forEach(item => {
+    if (item.title.toLowerCase().includes(q) || item.body.toLowerCase().includes(q) || item.technology.toLowerCase().includes(q)) {
+      addUnique(item);
+    }
+  });
+
+  // 3. Search in History
+  historyStore.entries.forEach(entry => {
+    entry.items.forEach(item => {
+      if (item.title.toLowerCase().includes(q) || item.body.toLowerCase().includes(q) || item.technology.toLowerCase().includes(q)) {
+        addUnique(item);
+      }
+    });
+  });
+
+  return results;
+});
+
+function techLabel(tech: string) {
+  return TECHNOLOGY_LABELS[tech as Technology] || tech;
+}
 
 async function handleRefresh(event: CustomEvent) {
   await Promise.all([
     authStore.fetchCurrentUser(),
-    contentStore.fetchDailyContent()
+    contentStore.fetchDailyContent(),
+    favoritesStore.fetchFavorites(),
+    historyStore.fetchHistory()
   ]);
   (event.target as HTMLIonRefresherElement).complete();
 }
@@ -131,6 +310,8 @@ function goToQuiz() {
 onMounted(() => {
   authStore.fetchCurrentUser();
   contentStore.fetchDailyContent();
+  favoritesStore.fetchFavorites();
+  historyStore.fetchHistory();
 });
 </script>
 
@@ -213,7 +394,7 @@ onMounted(() => {
 /* Quiz Banner Card */
 .quiz-banner-card {
   background: var(--dd-surface);
-  border: 2px solid var(--dd-border);
+  border: 1px solid var(--dd-border);
   border-radius: var(--dd-radius-md);
   padding: 16px 20px;
   margin-bottom: 20px;
@@ -320,5 +501,148 @@ onMounted(() => {
 .quiz-banner-play.completed {
   background: var(--ion-color-success);
   box-shadow: 0 4px 12px rgba(45, 211, 111, 0.25);
+}
+
+/* Responsive visibility helper styles */
+.desktop-only {
+  display: none !important;
+}
+
+.mobile-only {
+  display: block;
+}
+
+.mobile-logo-only {
+  display: flex;
+}
+
+/* Dashboard Side Card list styles */
+.fav-techs-card {
+  background: var(--dd-surface);
+  border: 1px solid var(--dd-border);
+  border-radius: var(--dd-radius-lg, 24px);
+  padding: 24px;
+  box-shadow: var(--dd-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.side-card-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--dd-text);
+  margin: 0;
+  letter-spacing: -0.2px;
+}
+
+.tech-chips-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tech-pill-badge {
+  font-size: 12px;
+  font-weight: 700;
+  background: var(--dd-bg);
+  border: 1px solid var(--dd-border);
+  color: var(--dd-text-secondary);
+  padding: 6px 12px;
+  border-radius: var(--dd-radius-sm, 10px);
+}
+
+.empty-techs-text {
+  font-size: 13px;
+  color: var(--dd-text-secondary);
+}
+
+.daily-tip-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Search results styles */
+.search-results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--dd-text);
+  margin: 0;
+}
+
+.clear-query-btn {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ion-color-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* DESKTOP MEDIA QUERIES (>=1024px) */
+@media (min-width: 1024px) {
+  .desktop-only {
+    display: flex !important;
+  }
+  
+  .desktop-only.quick-actions-card {
+    display: flex !important;
+  }
+  
+  .mobile-only {
+    display: none !important;
+  }
+  
+  .mobile-logo-only {
+    display: none !important;
+  }
+  
+  .home-container {
+    padding: 0;
+  }
+  
+  .home-header {
+    margin-bottom: 28px;
+  }
+  
+  .greeting {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.8px;
+  }
+  
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr);
+    gap: 32px;
+    align-items: start;
+    padding-bottom: 60px;
+  }
+  
+  .dashboard-main-column {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  
+  .dashboard-side-column {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    position: sticky;
+    top: 24px;
+  }
+  
+  .search-results-wrapper {
+    grid-column: span 2;
+  }
 }
 </style>

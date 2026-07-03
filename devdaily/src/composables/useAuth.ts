@@ -1,4 +1,3 @@
-import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/stores/authStore';
 import type { LoginCredentials, RegisterData } from '@/types/user';
