@@ -10,3 +10,4 @@ public class DevDailyApiApplication {
         SpringApplication.run(DevDailyApiApplication.class, args);
     }
 }
+ 

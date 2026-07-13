@@ -2,7 +2,7 @@
   <div class="app-chip" :class="{ selected, small }" @click="$emit('click')">
     <span v-if="emoji" class="chip-emoji">{{ emoji }}</span>
     <span class="chip-label">{{ label }}</span>
-    <ion-icon v-if="selected" :icon="checkmarkCircle" class="chip-check" />
+    <ion-icon :icon="checkmarkCircle" class="chip-check" :class="{ visible: selected }" />
   </div>
 </template>
 
@@ -69,6 +69,19 @@ defineEmits<{
 .chip-check {
   font-size: 16px;
   color: #fff;
+  opacity: 0;
+  width: 16px;
+  flex-shrink: 0;
+  transition: opacity 0.2s ease;
+}
+
+.chip-check.visible {
+  opacity: 1;
+}
+
+.app-chip.small .chip-check {
+  font-size: 14px;
+  width: 14px;
 }
 
 .chip-label {

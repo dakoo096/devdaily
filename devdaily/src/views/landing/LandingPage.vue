@@ -236,6 +236,29 @@
       </div>
     </section>
 
+    <!-- Download CTA Section -->
+    <section class="download-section" id="download">
+      <div class="download-container">
+        <div class="download-content">
+          <h2>Lleva DevDaily a todas partes</h2>
+          <p>
+            Instala nuestra Aplicación Web Progresiva (PWA) o descarga la app nativa para Android y continúa aprendiendo desde cualquier dispositivo, incluso sin conexión a internet.
+          </p>
+          <div class="download-actions">
+            <a href="https://github.com/dakoo096/devdaily/actions/runs/28680098515/artifacts/8073767581" target="_blank" rel="noopener" class="btn-landing btn-download-cta">
+              <ion-icon :icon="logoAndroid" style="margin-right: 8px; font-size: 20px;" />
+              <span>Descargar APK (Android)</span>
+            </a>
+            <router-link to="/register" class="btn-landing btn-download-cta cta-alt">
+              <ion-icon :icon="rocketOutline" style="margin-right: 8px; font-size: 20px;" />
+              <span>Empezar Gratis</span>
+            </router-link>
+          </div>
+          <p class="download-subtext">También puedes instalarla desde tu navegador móvil usando la opción "Agregar a pantalla de inicio".</p>
+        </div>
+      </div>
+    </section>
+
     <!-- Tech Stack Section (Branding) -->
     <section class="tech-section" id="tech-stack">
       <div class="tech-container">
@@ -284,7 +307,8 @@ import {
   laptopOutline, bookOutline, bulbOutline, 
   helpCircleOutline, heartOutline, barChartOutline, trophyOutline, 
   flameOutline, optionsOutline, moonOutline, rocketOutline, 
-  constructOutline, schoolOutline, chevronBackOutline, chevronForwardOutline
+  constructOutline, schoolOutline, chevronBackOutline, chevronForwardOutline,
+  logoAndroid
 } from 'ionicons/icons';
 
 // Features List Configuration
@@ -374,17 +398,17 @@ const slides = [
   {
     title: 'Lecciones Diarias',
     description: 'Visualiza tus tarjetas diarias filtradas según tus tecnologías e intereses.',
-    image: '/assets/screenshot_today.png'
+    image: '/pagPrincipal_devDaily.png'
   },
   {
     title: 'Quizzes Dinámicos',
     description: 'Valida tu conocimiento resolviendo cuestionarios con feedback en tiempo real.',
-    image: '/assets/screenshot_quiz.png'
+    image: '/quizdiario_devDaily.png'
   },
   {
     title: 'Perfil y Gamificación',
     description: 'Revisa tu nivel de desarrollador, barra de XP, rachas, precisión de respuestas y logros.',
-    image: '/assets/screenshot_profile.png'
+    image: '/miPerfil_devDaily.png'
   }
 ];
 
@@ -606,6 +630,11 @@ section {
   height: auto;
   margin: 0 auto;
   display: block;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero-mascot-img:hover {
+  transform: translateY(-8px) rotate(-2deg);
 }
 
 .glow-effect {
@@ -1039,12 +1068,14 @@ section {
 }
 
 .slide-img {
-  max-width: 260px;
-  width: 100%;
-  height: auto;
+  width: 280px;
+  height: 180px;
+  object-fit: cover;
+  background: #0d0f12;
   border-radius: var(--dd-radius-md);
   border: 1px solid var(--dd-border);
   box-shadow: var(--dd-shadow-sm);
+  flex-shrink: 0;
 }
 
 .slide-caption {
@@ -1323,7 +1354,8 @@ section {
     text-align: center;
   }
   .slide-img {
-    max-width: 200px;
+    width: 240px;
+    height: 150px;
   }
   .flow-content-wrapper {
     flex-direction: column;

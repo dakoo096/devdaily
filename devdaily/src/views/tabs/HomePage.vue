@@ -178,7 +178,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { IonPage, IonContent, IonRefresher, IonRefresherContent, IonIcon } from '@ionic/vue';
+import { IonPage, IonContent, IonRefresher, IonRefresherContent, IonIcon, onIonViewWillEnter } from '@ionic/vue';
 import { chevronForward, checkmarkCircle } from 'ionicons/icons';
 import AppChip from '@/components/common/AppChip.vue';
 import AppContentCard from '@/components/content/AppContentCard.vue';
@@ -308,6 +308,13 @@ function goToQuiz() {
 }
 
 onMounted(() => {
+  authStore.fetchCurrentUser();
+  contentStore.fetchDailyContent();
+  favoritesStore.fetchFavorites();
+  historyStore.fetchHistory();
+});
+
+onIonViewWillEnter(() => {
   authStore.fetchCurrentUser();
   contentStore.fetchDailyContent();
   favoritesStore.fetchFavorites();

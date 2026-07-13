@@ -22,6 +22,11 @@
           <div class="step-emoji">📦</div>
           <h2 class="step-title">¿Qué tipo de contenido te interesa?</h2>
           <p class="step-subtitle">Selecciona uno o más tipos</p>
+          <div class="step-actions-row">
+            <button class="select-all-btn" @click="toggleAllContentTypes">
+              {{ isAllContentTypesSelected ? 'Deseleccionar todos' : 'Seleccionar todos' }}
+            </button>
+          </div>
           <div class="chips-grid">
             <AppChip
               v-for="(label, key) in CONTENT_TYPE_LABELS"
@@ -39,6 +44,11 @@
           <div class="step-emoji">🎯</div>
           <h2 class="step-title">¿Qué áreas te interesan?</h2>
           <p class="step-subtitle">Selecciona tus áreas de enfoque</p>
+          <div class="step-actions-row">
+            <button class="select-all-btn" @click="toggleAllAreas">
+              {{ isAllAreasSelected ? 'Deseleccionar todos' : 'Seleccionar todos' }}
+            </button>
+          </div>
           <div class="chips-grid">
             <AppChip
               v-for="(label, key) in AREA_LABELS"
@@ -56,6 +66,11 @@
           <div class="step-emoji">🛠️</div>
           <h2 class="step-title">¿Con qué tecnologías trabajas?</h2>
           <p class="step-subtitle">Selecciona tus tecnologías</p>
+          <div class="step-actions-row">
+            <button class="select-all-btn" @click="toggleAllTechnologies">
+              {{ isAllTechnologiesSelected ? 'Deseleccionar todos' : 'Seleccionar todos' }}
+            </button>
+          </div>
           <div class="chips-grid">
             <AppChip
               v-for="(label, key) in TECHNOLOGY_LABELS"
@@ -100,10 +115,11 @@
 
           <button
             class="nav-button primary"
-            :disabled="!canProceed"
+            :disabled="!canProceed || isSaving"
             @click="handleNext"
           >
-            {{ currentStep === 3 ? '¡Empezar! 🚀' : 'Siguiente' }}
+            <span v-if="isSaving">Guardando...</span>
+            <span v-else>{{ currentStep === 3 ? '¡Empezar! 🚀' : 'Siguiente' }}</span>
           </button>
         </div>
       </div>
@@ -140,6 +156,42 @@ const selectedAreas = ref<Area[]>([...settingsStore.preferences.areas]);
 const selectedTechnologies = ref<Technology[]>([...settingsStore.preferences.technologies]);
 const selectedLevel = ref<Level>(settingsStore.preferences.level || 'junior');
 
+const allContentTypes = Object.keys(CONTENT_TYPE_LABELS) as ContentType[];
+const isAllContentTypesSelected = computed(() => {
+  return selectedContentTypes.value.length === allContentTypes.length;
+});
+function toggleAllContentTypes() {
+  if (isAllContentTypesSelected.value) {
+    selectedContentTypes.value = [];
+  } else {
+    selectedContentTypes.value = [...allContentTypes];
+  }
+}
+
+const allAreas = Object.keys(AREA_LABELS) as Area[];
+const isAllAreasSelected = computed(() => {
+  return selectedAreas.value.length === allAreas.length;
+});
+function toggleAllAreas() {
+  if (isAllAreasSelected.value) {
+    selectedAreas.value = [];
+  } else {
+    selectedAreas.value = [...allAreas];
+  }
+}
+
+const allTechnologies = Object.keys(TECHNOLOGY_LABELS) as Technology[];
+const isAllTechnologiesSelected = computed(() => {
+  return selectedTechnologies.value.length === allTechnologies.length;
+});
+function toggleAllTechnologies() {
+  if (isAllTechnologiesSelected.value) {
+    selectedTechnologies.value = [];
+  } else {
+    selectedTechnologies.value = [...allTechnologies];
+  }
+}
+
 const LEVEL_DESCRIPTIONS: Record<Level, string> = {
   student: 'Estoy aprendiendo a programar',
   junior: 'Menos de 2 años de experiencia',
@@ -166,17 +218,26 @@ const canProceed = computed(() => {
   }
 });
 
-function handleNext() {
+const isSaving = ref(false);
+
+async function handleNext() {
   if (currentStep.value < 3) {
     currentStep.value++;
   } else {
-    // Save preferences and complete onboarding
-    settingsStore.updateContentTypes(selectedContentTypes.value);
-    settingsStore.updateAreas(selectedAreas.value);
-    settingsStore.updateTechnologies(selectedTechnologies.value);
-    settingsStore.updateLevel(selectedLevel.value);
-    settingsStore.completeOnboarding();
-    router.replace('/app/home');
+    isSaving.value = true;
+    try {
+      // Save preferences and complete onboarding
+      settingsStore.updateContentTypes(selectedContentTypes.value);
+      settingsStore.updateAreas(selectedAreas.value);
+      settingsStore.updateTechnologies(selectedTechnologies.value);
+      settingsStore.updateLevel(selectedLevel.value);
+      await settingsStore.completeOnboarding();
+      router.replace('/app/home');
+    } catch (e) {
+      console.error('Error completing onboarding:', e);
+    } finally {
+      isSaving.value = false;
+    }
   }
 }
 
@@ -384,5 +445,35 @@ function handleCancel() {
 .close-button:active {
   color: var(--dd-text);
   background: var(--dd-surface-hover);
+}
+
+/* Step Action Row & Select All Button */
+.step-actions-row {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.select-all-btn {
+  background: transparent;
+  border: 1px dashed var(--dd-border);
+  color: var(--dd-text-secondary);
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: var(--dd-radius-sm, 8px);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.select-all-btn:hover {
+  color: var(--ion-color-primary);
+  border-color: var(--ion-color-primary);
+  background: rgba(var(--ion-color-primary-rgb), 0.05);
+}
+
+.select-all-btn:active {
+  transform: scale(0.97);
 }
 </style>

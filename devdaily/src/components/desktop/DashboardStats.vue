@@ -81,13 +81,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { IonIcon } from '@ionic/vue';
 import { bookOutline, heartOutline, helpCircleOutline, ribbonOutline, flameOutline, calendarOutline } from 'ionicons/icons';
 import { useAuthStore } from '@/stores/authStore';
+import { useFavoritesStore } from '@/stores/favoritesStore';
+import { useHistoryStore } from '@/stores/historyStore';
 import { api } from '@/services/api';
 
 const authStore = useAuthStore();
+const favoritesStore = useFavoritesStore();
+const historyStore = useHistoryStore();
 
 const stats = ref({
   contentsRead: 0,
@@ -120,6 +124,14 @@ async function loadStats() {
 }
 
 onMounted(() => {
+  loadStats();
+});
+
+watch([
+  () => authStore.user?.devXp,
+  () => historyStore.totalViewed,
+  () => favoritesStore.count
+], () => {
   loadStats();
 });
 </script>

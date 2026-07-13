@@ -19,7 +19,7 @@
     </div>
 
     <div class="card-footer-row">
-      <span class="footer-desc">Completado 13 de 20 lecciones</span>
+      <span class="footer-desc">Completado {{ completedLessons }} de {{ totalLessons }} lecciones</span>
       <button class="seguir-btn" @click="scrollBtnClick">
         <span>Seguir</span>
         <ion-icon :icon="arrowForwardOutline" />
@@ -33,10 +33,14 @@ import { computed } from 'vue';
 import { IonIcon } from '@ionic/vue';
 import { arrowForwardOutline } from 'ionicons/icons';
 import { useSettingsStore } from '@/stores/settingsStore';
+import { useHistoryStore } from '@/stores/historyStore';
+import { useLayout } from '@/composables/useLayout';
 import { TECHNOLOGY_LABELS } from '@/types/content';
 import type { Technology } from '@/types/content';
 
 const settingsStore = useSettingsStore();
+const historyStore = useHistoryStore();
+const { isDesktop } = useLayout();
 
 // Dynamically read from settings
 const activeTech = computed(() => {
@@ -46,6 +50,11 @@ const activeTech = computed(() => {
     return TECHNOLOGY_LABELS[key as Technology] || 'Vue';
   }
   return 'Vue';
+});
+
+const activeTechKey = computed<Technology>(() => {
+  const selected = settingsStore.preferences.technologies || [];
+  return (selected[0] || 'vue') as Technology;
 });
 
 const activeArea = computed(() => {
@@ -61,15 +70,42 @@ const activeArea = computed(() => {
   }
 });
 
+const completedLessons = computed(() => {
+  let count = 0;
+  for (const entry of historyStore.entries) {
+    for (const item of entry.items) {
+      if (item.technology === activeTechKey.value) {
+        count++;
+      }
+    }
+  }
+  return count;
+});
+
+const totalLessons = computed(() => {
+  const completed = completedLessons.value;
+  if (completed >= 20) {
+    return Math.ceil((completed + 1) / 10) * 10;
+  }
+  return 20;
+});
+
 const progressValue = computed(() => {
-  // Let's keep it stable around 65% for style, or slightly offset it by level
-  return 65;
+  if (totalLessons.value === 0) return 0;
+  return Math.min(100, Math.round((completedLessons.value / totalLessons.value) * 100));
 });
 
 function scrollBtnClick() {
-  const cardsElement = document.querySelector('.content-list');
-  if (cardsElement) {
-    cardsElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // On desktop, the main content list is hidden, so scroll to the featured daily tip section.
+  const selector = isDesktop.value ? '.daily-tip-section' : '.content-list';
+  const target = document.querySelector(selector);
+  if (target) {
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    const container = document.querySelector('.home-container');
+    if (container) {
+      container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }
 }
 </script>

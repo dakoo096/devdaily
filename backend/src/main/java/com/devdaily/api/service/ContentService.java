@@ -58,10 +58,9 @@ public class ContentService {
                     pref.getTechnologies()
             );
 
-            // Fallback: If not enough matches, find content matching areas or tech (wider pool)
+            // Fallback: If not enough matches, find content matching tech (wider pool)
             if (candidates.size() < 5) {
                 List<Content> fallback = contentRepository.findFallbackCandidates(
-                        pref.getAreas(),
                         pref.getTechnologies()
                 );
                 Set<Content> combined = new HashSet<>(candidates);

@@ -31,18 +31,14 @@ public class QuizService {
 
     private Difficulty mapLevelToDifficulty(Level level) {
         if (level == null) return Difficulty.BEGINNER;
-        switch (level) {
-            case STUDENT:
-                return Difficulty.BEGINNER;
-            case JUNIOR:
-                return Difficulty.BEGINNER;
-            case SEMI_SENIOR:
-                return Difficulty.INTERMEDIATE;
-            case SENIOR:
-                return Difficulty.ADVANCED;
-            default:
-                return Difficulty.BEGINNER;
+        if (level == Level.STUDENT || level == Level.JUNIOR) {
+            return Difficulty.BEGINNER;
+        } else if (level == Level.SEMI_SENIOR) {
+            return Difficulty.INTERMEDIATE;
+        } else if (level == Level.SENIOR) {
+            return Difficulty.ADVANCED;
         }
+        return Difficulty.BEGINNER;
     }
 
     @Transactional
