@@ -14,7 +14,7 @@
             <span>⚡</span>
           </div>
           <h1 class="page-title">Crear Cuenta</h1>
-          <p class="page-subtitle">Únete a la comunidad DevDaily</p>
+          <p class="page-subtitle">Únete a la comunidad DevBloom</p>
         </div>
 
         <!-- Register Form -->

@@ -4,12 +4,12 @@
     <section class="hero-section" id="hero">
       <div class="hero-container">
         <div class="hero-text-content">
-          <span class="hero-tagline animate-fade-in-up">⚡ DevDaily PWA & App</span>
+          <span class="hero-tagline animate-fade-in-up">⚡ DevBloom PWA & App</span>
           <h1 class="hero-title animate-fade-in-up stagger-1">
             Aprende algo nuevo sobre programación <span class="gradient-text">todos los días</span>.
           </h1>
           <p class="hero-desc animate-fade-in-up stagger-2">
-            DevDaily es una plataforma de microlearning diseñada para desarrolladores. Recibe lecciones breves, tips prácticos y quizzes adaptados a tus tecnologías preferidas en menos de 5 minutos al día.
+            DevBloom es una plataforma de microlearning diseñada para desarrolladores. Recibe lecciones breves, tips prácticos y quizzes adaptados a tus tecnologías preferidas en menos de 5 minutos al día.
           </p>
           <div class="hero-actions animate-fade-in-up stagger-3">
             <router-link to="/register" class="btn-hero-primary">
@@ -24,18 +24,18 @@
         </div>
         <div class="hero-media-content animate-fade-in stagger-2">
           <div class="mockup-wrapper">
-            <img src="/devDaily header.png" alt="DevDaily Hero Mascot" class="mockup-img hero-mascot-img" />
+            <img src="/DevBloom header.png" alt="DevBloom Hero Mascot" class="mockup-img hero-mascot-img" />
             <div class="glow-effect"></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Concept Section (¿Qué es DevDaily?) -->
+    <!-- Concept Section (¿Qué es DevBloom?) -->
     <section class="concept-section" id="about-concept">
       <div class="concept-container">
         <div class="concept-header">
-          <h2>¿Qué es DevDaily?</h2>
+          <h2>¿Qué es DevBloom?</h2>
           <div class="header-line"></div>
         </div>
         <div class="concept-content-grid">
@@ -45,7 +45,7 @@
             </div>
             <h3>Microlearning Efectivo</h3>
             <p>
-              Evita la fatiga cognitiva de cursos interminables. DevDaily sintetiza conceptos complejos en formatos cortos de lectura rápida para asimilar conocimientos sin esfuerzo.
+              Evita la fatiga cognitiva de cursos interminables. DevBloom sintetiza conceptos complejos en formatos cortos de lectura rápida para asimilar conocimientos sin esfuerzo.
             </p>
           </div>
           <div class="concept-card animate-fade-in-up stagger-1">
@@ -100,7 +100,7 @@
         </div>
         <div class="flow-content-wrapper">
           <div class="flow-image-side animate-fade-in">
-            <img src="/assets/devDaily_question.png" alt="DevDaily Mascot Question" class="flow-mascot-img" />
+            <img src="/assets/DevBloom_question.png" alt="DevBloom Mascot Question" class="flow-mascot-img" />
           </div>
           <div class="flow-steps">
             <div v-for="(step, idx) in flowSteps" :key="idx" class="flow-step animate-fade-in-up" :class="`stagger-${idx}`">
@@ -124,7 +124,7 @@
         <div class="roadmap-header">
           <span class="roadmap-tag">🚀 Proyección</span>
           <h2>Roadmap del Proyecto</h2>
-          <p>DevDaily está vivo y en constante evolución. Conoce lo que ya está listo y lo que estamos construyendo.</p>
+          <p>DevBloom está vivo y en constante evolución. Conoce lo que ya está listo y lo que estamos construyendo.</p>
           <div class="header-line"></div>
         </div>
         <div class="roadmap-box">
@@ -195,7 +195,7 @@
       <div class="screenshots-container">
         <div class="screenshots-header">
           <h2>Capturas de Pantalla</h2>
-          <p>Un vistazo a la experiencia limpia e interactiva de DevDaily.</p>
+          <p>Un vistazo a la experiencia limpia e interactiva de DevBloom.</p>
           <div class="header-line"></div>
         </div>
 
@@ -240,17 +240,17 @@
     <section class="download-section" id="download">
       <div class="download-container">
         <div class="download-content">
-          <h2>Lleva DevDaily a todas partes</h2>
+          <h2>Lleva DevBloom a todas partes</h2>
           <p>
             Instala nuestra Aplicación Web Progresiva (PWA) o descarga la app nativa para Android y continúa aprendiendo desde cualquier dispositivo, incluso sin conexión a internet.
           </p>
           <div class="download-actions">
-            <a href="https://github.com/dakoo096/devdaily/actions/runs/28680098515/artifacts/8073767581" target="_blank" rel="noopener" class="btn-landing btn-download-cta">
-              <ion-icon :icon="logoAndroid" style="margin-right: 8px; font-size: 20px;" />
+            <a href="https://github.com/dakoo096/devbloom/actions/runs/28680098515/artifacts/8073767581" target="_blank" rel="noopener" class="btn-download-cta btn-download-primary">
+              <ion-icon :icon="logoAndroid" class="btn-download-icon android-icon" />
               <span>Descargar APK (Android)</span>
             </a>
-            <router-link to="/register" class="btn-landing btn-download-cta cta-alt">
-              <ion-icon :icon="rocketOutline" style="margin-right: 8px; font-size: 20px;" />
+            <router-link to="/register" class="btn-download-cta btn-download-secondary">
+              <ion-icon :icon="rocketOutline" class="btn-download-icon rocket-icon" />
               <span>Empezar Gratis</span>
             </router-link>
           </div>
@@ -377,7 +377,7 @@ const flowSteps = [
   },
   {
     title: 'Recibe contenido diario',
-    description: 'Cada mañana, DevDaily genera lecciones personalizadas basadas en tus preferencias.'
+    description: 'Cada mañana, DevBloom genera lecciones personalizadas basadas en tus preferencias.'
   },
   {
     title: 'Responde Quizzes',
@@ -394,21 +394,22 @@ const flowSteps = [
 ];
 
 // Carousel Slides Configuration
+const baseUrl = import.meta.env.BASE_URL || '/';
 const slides = [
   {
     title: 'Lecciones Diarias',
     description: 'Visualiza tus tarjetas diarias filtradas según tus tecnologías e intereses.',
-    image: '/pagPrincipal_devDaily.png'
+    image: `${baseUrl}pagPrincipal_DevBloom.png`
   },
   {
     title: 'Quizzes Dinámicos',
     description: 'Valida tu conocimiento resolviendo cuestionarios con feedback en tiempo real.',
-    image: '/quizdiario_devDaily.png'
+    image: `${baseUrl}quizdiario_DevBloom.png`
   },
   {
     title: 'Perfil y Gamificación',
     description: 'Revisa tu nivel de desarrollador, barra de XP, rachas, precisión de respuestas y logros.',
-    image: '/miPerfil_devDaily.png'
+    image: `${baseUrl}miPerfil_DevBloom.png`
   }
 ];
 
@@ -649,7 +650,7 @@ section {
   z-index: 1;
 }
 
-/* Concept Section (¿Qué es DevDaily?) */
+/* Concept Section (¿Qué es DevBloom?) */
 .concept-section {
   background: var(--dd-surface);
   border-top: 1px solid var(--dd-border);
@@ -753,6 +754,10 @@ section {
 }
 
 .feature-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
   padding: 24px;
   background: var(--dd-surface);
   border-radius: var(--dd-radius-md);
@@ -1065,11 +1070,13 @@ section {
   display: flex;
   align-items: center;
   gap: 40px;
+  width: 100%;
 }
 
 .slide-img {
-  width: 280px;
-  height: 180px;
+  width: 100%;
+  max-width: 320px;
+  height: auto;
   object-fit: cover;
   background: #0d0f12;
   border-radius: var(--dd-radius-md);
@@ -1258,34 +1265,106 @@ section {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 20px;
+  margin-top: 10px;
 }
 
 .btn-download-cta {
-  padding: 16px 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 36px;
+  border-radius: 14px;
   font-size: 16px;
+  font-weight: 700;
+  text-decoration: none !important;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: -0.2px;
+}
+
+.btn-download-cta span {
+  text-decoration: none !important;
+}
+
+/* Primary Button (Descargar APK) */
+.btn-download-primary {
   background: #ffffff;
-  color: var(--ion-color-primary) !important;
+  color: #5f27cd !important;
   border: none;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 
+              inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
-.btn-download-cta:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
-  background: #f0f0fa;
+.btn-download-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(108, 92, 231, 0.08),
+    transparent
+  );
+  transition: 0.5s;
 }
 
-.cta-alt {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.4);
+.btn-download-primary:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25), 
+              inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  background: #f5f6ff;
+  color: #5f27cd !important;
+}
+
+.btn-download-primary:hover::before {
+  left: 100%;
+  transition: 0.8s ease-in-out;
+}
+
+.btn-download-primary:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+/* Secondary Button (Empezar Gratis) */
+.btn-download-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   color: #ffffff !important;
-  box-shadow: none;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
 }
 
-.cta-alt:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: #ffffff;
+.btn-download-secondary:hover {
+  transform: translateY(-4px) scale(1.03);
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.btn-download-secondary:active {
+  transform: translateY(-1px) scale(0.98);
+}
+
+/* Download Icons styling */
+.btn-download-icon {
+  font-size: 22px;
+  margin-right: 10px;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.btn-download-primary:hover .android-icon {
+  transform: scale(1.2) rotate(10deg);
+}
+
+.btn-download-secondary:hover .rocket-icon {
+  transform: translateY(-4px) translateX(4px) rotate(15deg) scale(1.2);
 }
 
 .download-subtext {
@@ -1351,16 +1430,20 @@ section {
   }
   .slide-card {
     flex-direction: column;
+    align-items: center;
     text-align: center;
+    gap: 24px;
   }
   .slide-img {
-    width: 240px;
-    height: 150px;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
   }
   .flow-content-wrapper {
     flex-direction: column;
     gap: 40px;
-  }
+  
   .flow-mascot-img {
     max-width: 240px;
   }
@@ -1369,13 +1452,35 @@ section {
     height: 40px;
     font-size: 16px;
   }
+  .carousel-slide {
+    padding: 16px 12px;
+  }
+  .slide-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 24px;
+  }
+  .slide-img {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+  .slide-caption {
+    width: 100%;
+    padding: 0 12px;
+  }
+  .carousel-dots {
+    margin-top: 16px;
+  }
   .prev-btn { left: -12px; }
   .next-btn { right: -12px; }
   .download-section {
     margin: 0;
     border-radius: 0;
   }
-  .download-actions .btn-landing {
+  .download-actions .btn-download-cta {
     width: 100%;
   }
 }

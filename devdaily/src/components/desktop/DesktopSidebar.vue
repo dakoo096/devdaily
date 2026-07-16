@@ -3,7 +3,7 @@
     <!-- Header Logo -->
     <div class="sidebar-header" @click="goToHome">
       <span class="logo-emoji">⚡</span>
-      <span class="logo-text">DevDaily</span>
+      <span class="logo-text">DevBloom</span>
     </div>
 
     <!-- Navigation Section 1 -->

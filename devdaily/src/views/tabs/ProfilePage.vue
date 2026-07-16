@@ -84,7 +84,7 @@
             </div>
 
             <!-- App Version -->
-            <p class="app-version">DevDaily v1.0.0</p>
+            <p class="app-version">DevBloom v1.0.0</p>
           </div>
 
           <!-- Right Column (Stats Grid & Achievements) -->

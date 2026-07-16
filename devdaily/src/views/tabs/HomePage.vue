@@ -87,8 +87,23 @@
               </div>
             </div>
 
+            <!-- Other Lessons of the Day (Desktop only) -->
+            <div v-if="otherLessons.length > 0" class="other-lessons-section desktop-only animate-fade-in-up stagger-2">
+              <div class="card-header-row">
+                <h3 class="side-card-title">📚 Más Lecciones de Hoy</h3>
+              </div>
+              <div v-if="contentStore.isLoading" class="skeleton-wrapper">
+                <div class="other-lessons-grid">
+                  <ContentSkeleton v-for="i in 2" :key="i" />
+                </div>
+              </div>
+              <div v-else class="other-lessons-grid">
+                <AppContentCard v-for="item in otherLessons" :key="item.id" :item="item" />
+              </div>
+            </div>
+
             <!-- Recent Activity Timeline (Desktop only) -->
-            <RecentActivityTimeline class="desktop-only animate-fade-in-up stagger-2" />
+            <RecentActivityTimeline class="desktop-only animate-fade-in-up stagger-3" />
 
             <!-- Mobile Only Section (Filter chips + content list) -->
             <div class="mobile-only filter-and-list">
@@ -247,6 +262,11 @@ const filteredContent = computed(() => {
 const tipOfDay = computed(() => {
   // Find first item in daily content that is a tip or concept
   return contentStore.dailyContent.find(c => c.type === 'tip') || contentStore.dailyContent[0];
+});
+
+const otherLessons = computed(() => {
+  if (!tipOfDay.value) return [];
+  return contentStore.dailyContent.filter(c => c.id !== tipOfDay.value.id);
 });
 
 const searchResults = computed(() => {
@@ -650,6 +670,22 @@ onIonViewWillEnter(() => {
   
   .search-results-wrapper {
     grid-column: span 2;
+  }
+
+  .other-lessons-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .other-lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .other-lessons-grid :deep(.content-card) {
+    margin-bottom: 0;
   }
 }
 </style>

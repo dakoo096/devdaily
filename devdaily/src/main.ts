@@ -25,7 +25,7 @@ import '@ionic/vue/css/display.css';
 /**
  * Ionic Dark Mode
  * -----------------------------------------------------
- * DevDaily manages dark mode manually via body.dark class.
+ * DevBloom manages dark mode manually via body.dark class.
  * We don't use the system-based import.
  */
 

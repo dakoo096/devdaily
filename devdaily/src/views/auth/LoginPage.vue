@@ -11,7 +11,7 @@
         <!-- Logo & Branding -->
         <div class="brand-section animate-fade-in-up">
           <div class="brand-header-container">
-            <img src="/devDaily header.png" alt="DevDaily" class="brand-header-img" />
+            <img src="/DevBloom header.png" alt="DevBloom" class="brand-header-img" />
           </div>
           <h1 class="app-name">Dev<span class="gradient-text">Daily</span></h1>
           <p class="app-tagline">Tu dosis diaria de desarrollo</p>

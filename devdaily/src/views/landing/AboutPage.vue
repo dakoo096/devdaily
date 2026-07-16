@@ -2,7 +2,7 @@
   <div class="about-page">
     <div class="about-hero animate-fade-in-up">
       <span class="about-tag">💡 Filosofía</span>
-      <h1>Sobre DevDaily</h1>
+      <h1>Sobre DevBloom</h1>
       <p>Entendiendo el porqué detrás del aprendizaje en porciones diarias.</p>
       <div class="header-line"></div>
     </div>
@@ -34,7 +34,7 @@
           <div class="block-text">
             <h2>Nuestra Filosofía: Microlearning Diario</h2>
             <p>
-              DevDaily nació para resolver esto aplicando el concepto de <strong>microlearning</strong> (o microaprendizaje). Estudiar un solo concepto claro y bien estructurado al día toma menos de 5 minutos, pero genera un hábito poderoso a largo plazo.
+              DevBloom nació para resolver esto aplicando el concepto de <strong>microlearning</strong> (o microaprendizaje). Estudiar un solo concepto claro y bien estructurado al día toma menos de 5 minutos, pero genera un hábito poderoso a largo plazo.
             </p>
             <p>
               Al complementar la lectura diaria con un quiz rápido de retroalimentación inmediata, obligamos a nuestra memoria a realizar una recuperación activa del conocimiento, lo que afianza la memoria a largo plazo.
@@ -54,7 +54,7 @@
           <div class="block-text">
             <h2>Una PWA moderna para todos</h2>
             <p>
-              Queríamos que DevDaily fuera accesible al instante. Por eso, además de ofrecer una aplicación móvil nativa a través de una APK de Android, DevDaily está construido como una Aplicación Web Progresiva (PWA).
+              Queríamos que DevBloom fuera accesible al instante. Por eso, además de ofrecer una aplicación móvil nativa a través de una APK de Android, DevBloom está construido como una Aplicación Web Progresiva (PWA).
             </p>
             <p>
               Puedes usarla desde cualquier navegador de escritorio, tablet, o instalarla directamente en la pantalla de inicio de tu teléfono iOS o Android sin pasar por la tienda de aplicaciones.

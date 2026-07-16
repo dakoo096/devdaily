@@ -120,75 +120,87 @@
 
       <!-- Results Screen -->
       <div v-else-if="gameState === 'results' && submitResponse" class="results-container animate-fade-in-up">
-        <!-- Result Header -->
-        <div class="results-header-card">
-          <div class="trophy-emoji">🏆</div>
-          <h2 class="results-title">¡Quiz Completado!</h2>
-          <div class="score-badge">Acertaste: {{ submitResponse.score }} / 3</div>
+        <div class="results-layout-grid">
+          <!-- Left Column (Sidebar) -->
+          <div class="results-sidebar-column">
+            <!-- Result Header -->
+            <div class="results-header-card">
+              <div class="trophy-emoji">🏆</div>
+              <h2 class="results-title">¡Quiz Completado!</h2>
+              <div class="score-badge">Acertaste: {{ submitResponse.score }} / 3</div>
 
-          <!-- Stats Grid -->
-          <div class="stats-mini-grid">
-             <div class="stat-mini-card">
-               <span class="stat-mini-value">+{{ submitResponse.xpEarned }}</span>
-               <span class="stat-mini-label">Dev XP</span>
-             </div>
-            <div class="stat-mini-card">
-              <span class="stat-mini-value">🔥 {{ submitResponse.currentStreak }}</span>
-              <span class="stat-mini-label">Racha Días</span>
+              <!-- Stats Grid -->
+              <div class="stats-mini-grid">
+                <div class="stat-mini-card">
+                  <span class="stat-mini-value">+{{ submitResponse.xpEarned }}</span>
+                  <span class="stat-mini-label">Dev XP</span>
+                </div>
+                <div class="stat-mini-card">
+                  <span class="stat-mini-value">🔥 {{ submitResponse.currentStreak }}</span>
+                  <span class="stat-mini-label">Racha Días</span>
+                </div>
+                <div class="stat-mini-card">
+                  <span class="stat-mini-value">⭐ {{ submitResponse.longestStreak }}</span>
+                  <span class="stat-mini-label">Racha Récord</span>
+                </div>
+              </div>
             </div>
-            <div class="stat-mini-card">
-              <span class="stat-mini-value">⭐ {{ submitResponse.longestStreak }}</span>
-              <span class="stat-mini-label">Racha Récord</span>
+
+            <button class="action-btn primary-btn finish-btn desktop-finish-btn" @click="goHome">
+              Volver al Inicio
+            </button>
+          </div>
+
+          <!-- Right Column (Main Review Column) -->
+          <div class="results-main-column">
+            <!-- Review Section -->
+            <h3 class="review-section-title">Revisar respuestas</h3>
+            <div class="review-list">
+              <div
+                v-for="(result, index) in submitResponse.results"
+                :key="result.questionId"
+                class="review-card"
+                :class="result.correct ? 'correct' : 'incorrect'"
+              >
+                <div class="review-q-header">
+                  <span class="q-number">Pregunta {{ index + 1 }}</span>
+                  <span class="q-badge" :class="result.correct ? 'correct' : 'incorrect'">
+                    {{ result.correct ? 'Correcto' : 'Incorrecto' }}
+                  </span>
+                </div>
+
+                <p class="review-q-text">{{ getQuestionText(result.questionId) }}</p>
+
+                <div class="review-answers">
+                  <p class="answer-row user-answer">
+                    <strong>Tu respuesta:</strong> {{ getOptionText(result.questionId, result.chosenOptionId) }}
+                  </p>
+                  <p v-if="!result.correct" class="answer-row correct-answer">
+                    <strong>Respuesta correcta:</strong> {{ getOptionText(result.questionId, result.correctOptionId) }}
+                  </p>
+                </div>
+
+                <!-- Explanation -->
+                <div class="explanation-box">
+                  <div class="explanation-title">💡 Explicación:</div>
+                  <p class="explanation-text">{{ result.explanation }}</p>
+                </div>
+
+                <!-- Review Link -->
+                <div v-if="result.relatedContentId" class="review-concept-box" @click="reviewConcept(result.relatedContentId)">
+                  <span class="review-icon">📖</span>
+                  <span class="review-link-text">
+                    Repasar tip relacionado: <span class="review-title-underline">{{ result.relatedContentTitle || 'Ver contenido' }}</span>
+                  </span>
+                </div>
+              </div>
             </div>
+
+            <button class="action-btn primary-btn finish-btn mobile-finish-btn" @click="goHome">
+              Volver al Inicio
+            </button>
           </div>
         </div>
-
-        <!-- Review Section -->
-        <h3 class="review-section-title">Revisar respuestas</h3>
-        <div class="review-list">
-          <div
-            v-for="(result, index) in submitResponse.results"
-            :key="result.questionId"
-            class="review-card"
-            :class="result.correct ? 'correct' : 'incorrect'"
-          >
-            <div class="review-q-header">
-              <span class="q-number">Pregunta {{ index + 1 }}</span>
-              <span class="q-badge" :class="result.correct ? 'correct' : 'incorrect'">
-                {{ result.correct ? 'Correcto' : 'Incorrecto' }}
-              </span>
-            </div>
-
-            <p class="review-q-text">{{ getQuestionText(result.questionId) }}</p>
-
-            <div class="review-answers">
-              <p class="answer-row user-answer">
-                <strong>Tu respuesta:</strong> {{ getOptionText(result.questionId, result.chosenOptionId) }}
-              </p>
-              <p v-if="!result.correct" class="answer-row correct-answer">
-                <strong>Respuesta correcta:</strong> {{ getOptionText(result.questionId, result.correctOptionId) }}
-              </p>
-            </div>
-
-            <!-- Explanation -->
-            <div class="explanation-box">
-              <div class="explanation-title">💡 Explicación:</div>
-              <p class="explanation-text">{{ result.explanation }}</p>
-            </div>
-
-            <!-- Review Link -->
-            <div v-if="result.relatedContentId" class="review-concept-box" @click="reviewConcept(result.relatedContentId)">
-              <span class="review-icon">📖</span>
-              <span class="review-link-text">
-                Repasar tip relacionado: <span class="review-title-underline">{{ result.relatedContentTitle || 'Ver contenido' }}</span>
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <button class="action-btn primary-btn finish-btn" @click="goHome">
-          Volver al Inicio
-        </button>
       </div>
 
       <!-- Related Content Modal -->
@@ -244,7 +256,23 @@ const currentQuestionIndex = ref(0);
 const selectedOptionId = ref<number | null>(null);
 const userAnswers = ref<Array<{ questionId: number; chosenOptionId: number }>>([]);
 
-const submitResponse = ref<any | null>(null);
+interface QuizSubmitResponse {
+  score: number;
+  xpEarned: number;
+  currentStreak: number;
+  longestStreak: number;
+  results: Array<{
+    questionId: number;
+    correct: boolean;
+    chosenOptionId: number;
+    correctOptionId: number;
+    explanation: string;
+    relatedContentId?: number;
+    relatedContentTitle?: string;
+  }>;
+}
+
+const submitResponse = ref<QuizSubmitResponse | null>(null);
 const selectedContentToShow = ref<any | null>(null);
 
 const activeQuestion = computed(() => {
@@ -990,5 +1018,176 @@ function handleExit() {
   padding: 20px;
   border-radius: var(--dd-radius-md);
   width: 100%;
+}
+
+.desktop-finish-btn {
+  display: none;
+}
+
+.mobile-finish-btn {
+  display: flex;
+}
+
+/* DESKTOP RESPONSIVE DESIGN (>= 1024px) */
+@media (min-width: 1024px) {
+  .quiz-content {
+    --padding-top: 32px;
+    --padding-bottom: 60px;
+  }
+
+  /* Center screens (Loading, Error, Completed) */
+  .center-container {
+    max-width: 580px;
+    margin: 80px auto;
+    background: var(--dd-surface);
+    border: 1px solid var(--dd-border);
+    border-radius: var(--dd-radius-lg);
+    padding: 60px 40px;
+    box-shadow: var(--dd-shadow-lg);
+    min-height: auto;
+  }
+
+  /* Intro Screen */
+  .intro-container {
+    max-width: 600px;
+    margin: 60px auto;
+    background: var(--dd-surface);
+    border: 1px solid var(--dd-border);
+    border-radius: var(--dd-radius-lg);
+    padding: 60px 48px;
+    box-shadow: var(--dd-shadow-lg);
+    min-height: auto;
+    justify-content: center;
+  }
+  
+  .intro-desc {
+    max-width: 440px;
+  }
+  
+  .intro-details {
+    max-width: 380px;
+  }
+
+  /* Game Playing Screen */
+  .quiz-container {
+    max-width: 800px;
+    margin: 40px auto 80px;
+    padding: 0;
+  }
+
+  .question-card {
+    padding: 40px;
+    border-radius: var(--dd-radius-lg);
+    box-shadow: var(--dd-shadow-md);
+  }
+
+  .question-text {
+    font-size: 22px;
+    margin-bottom: 28px;
+  }
+
+  .code-block {
+    padding: 24px;
+  }
+
+  .code-block code {
+    font-size: 14px;
+  }
+
+  .options-list {
+    gap: 16px;
+  }
+
+  .option-button {
+    padding: 18px 24px;
+    border-radius: var(--dd-radius-md);
+  }
+
+  .option-text {
+    font-size: 15px;
+  }
+
+  .navigation-section {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .navigation-section .next-btn {
+    margin: 0;
+    max-width: 280px;
+  }
+
+  /* Results Screen */
+  .results-container {
+    max-width: 1100px;
+    margin: 30px auto 80px;
+    padding: 0;
+  }
+
+  .results-layout-grid {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+
+  .results-sidebar-column {
+    position: sticky;
+    top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .results-header-card {
+    margin-bottom: 0;
+    padding: 40px 24px;
+    box-shadow: var(--dd-shadow-md);
+  }
+
+  .results-main-column {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .review-section-title {
+    margin-top: 0;
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  .review-card {
+    padding: 24px;
+    box-shadow: var(--dd-shadow-md);
+  }
+
+  .review-q-text {
+    font-size: 16px;
+  }
+
+  .review-answers {
+    padding: 16px 20px;
+  }
+
+  .answer-row {
+    font-size: 14px;
+  }
+
+  .explanation-box {
+    padding: 16px 20px;
+  }
+
+  .explanation-text {
+    font-size: 14px;
+  }
+
+  .desktop-finish-btn {
+    display: flex !important;
+    max-width: 100%;
+  }
+
+  .mobile-finish-btn {
+    display: none !important;
+  }
 }
 </style>

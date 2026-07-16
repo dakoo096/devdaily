@@ -2,7 +2,7 @@
   <header class="desktop-header-inner">
     <!-- Breadcrumb Title -->
     <div class="breadcrumb-container">
-      <span class="breadcrumb-parent">DevDaily</span>
+      <span class="breadcrumb-parent">DevBloom</span>
       <span class="breadcrumb-separator">/</span>
       <span class="breadcrumb-active">{{ activePageName }}</span>
     </div>

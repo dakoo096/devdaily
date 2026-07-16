@@ -110,7 +110,7 @@ export const useSettingsStore = defineStore('settings', () => {
           await LocalNotifications.schedule({
             notifications: [
               {
-                title: '⚡ DevDaily',
+                title: '⚡ DevBloom',
                 body: '¡Tu dosis diaria de desarrollo está lista! 🌅',
                 id: 1,
                 schedule: {

@@ -6,7 +6,7 @@
         <!-- Logo -->
         <div class="navbar-logo" @click="goHome">
           <span class="logo-emoji">⚡</span>
-          <span class="logo-text">DevDaily</span>
+          <span class="logo-text">DevBloom</span>
         </div>
 
         <!-- Desktop Navigation Links -->
@@ -69,7 +69,7 @@
           <div class="footer-brand">
             <div class="footer-logo">
               <span class="logo-emoji">⚡</span>
-              <span class="logo-text">DevDaily</span>
+              <span class="logo-text">DevBloom</span>
             </div>
             <p class="footer-desc">
               Mejora tus habilidades y adquiere hábitos de aprendizaje diario en programación con microlecciones y desafíos rápidos.
@@ -90,7 +90,7 @@
           </div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; {{ new Date().getFullYear() }} DevDaily. Todos los derechos reservados.</p>
+          <p>&copy; {{ new Date().getFullYear() }} DevBloom. Todos los derechos reservados.</p>
           <div class="footer-meta">
             <span class="footer-version">v1.0.0</span>
           </div>
