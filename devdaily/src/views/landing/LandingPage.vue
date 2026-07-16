@@ -4,27 +4,42 @@
     <section class="hero-section" id="hero">
       <div class="hero-container">
         <div class="hero-text-content">
-          <span class="hero-tagline animate-fade-in-up">⚡ DevBloom PWA & App</span>
+          <span class="hero-tagline animate-fade-in-up"
+            >⚡ DevBloom PWA & App</span
+          >
           <h1 class="hero-title animate-fade-in-up stagger-1">
-            Aprende algo nuevo sobre programación <span class="gradient-text">todos los días</span>.
+            Aprende algo nuevo sobre programación
+            <span class="gradient-text">todos los días</span>.
           </h1>
           <p class="hero-desc animate-fade-in-up stagger-2">
-            DevBloom es una plataforma de microlearning diseñada para desarrolladores. Recibe lecciones breves, tips prácticos y quizzes adaptados a tus tecnologías preferidas en menos de 5 minutos al día.
+            DevBloom es una plataforma de microlearning diseñada para
+            desarrolladores. Recibe lecciones breves, tips prácticos y quizzes
+            adaptados a tus tecnologías preferidas en menos de 5 minutos al día.
           </p>
           <div class="hero-actions animate-fade-in-up stagger-3">
             <router-link to="/register" class="btn-hero-primary">
-              <ion-icon :icon="rocketOutline" class="btn-hero-icon rocket-icon" />
+              <ion-icon
+                :icon="rocketOutline"
+                class="btn-hero-icon rocket-icon"
+              />
               <span>Empezar Gratis</span>
             </router-link>
             <router-link to="/login" class="btn-hero-secondary">
-              <ion-icon :icon="laptopOutline" class="btn-hero-icon laptop-icon" />
+              <ion-icon
+                :icon="laptopOutline"
+                class="btn-hero-icon laptop-icon"
+              />
               <span>Probar en el Navegador</span>
             </router-link>
           </div>
         </div>
         <div class="hero-media-content animate-fade-in stagger-2">
           <div class="mockup-wrapper">
-            <img src="/DevBloom header.png" alt="DevBloom Hero Mascot" class="mockup-img hero-mascot-img" />
+            <img
+              src="/DevBloom header.png"
+              alt="DevBloom Hero Mascot"
+              class="mockup-img hero-mascot-img"
+            />
             <div class="glow-effect"></div>
           </div>
         </div>
@@ -45,7 +60,9 @@
             </div>
             <h3>Microlearning Efectivo</h3>
             <p>
-              Evita la fatiga cognitiva de cursos interminables. DevBloom sintetiza conceptos complejos en formatos cortos de lectura rápida para asimilar conocimientos sin esfuerzo.
+              Evita la fatiga cognitiva de cursos interminables. DevBloom
+              sintetiza conceptos complejos en formatos cortos de lectura rápida
+              para asimilar conocimientos sin esfuerzo.
             </p>
           </div>
           <div class="concept-card animate-fade-in-up stagger-1">
@@ -54,7 +71,9 @@
             </div>
             <h3>Contenido a tu Medida</h3>
             <p>
-              Configura tus preferencias durante el onboarding y recibe diariamente solo lo que te interesa de tus lenguajes y tecnologías favoritas (JavaScript, Spring Boot, Git, Docker, etc.).
+              Configura tus preferencias durante el onboarding y recibe
+              diariamente solo lo que te interesa de tus lenguajes y tecnologías
+              favoritas (JavaScript, Spring Boot, Git, Docker, etc.).
             </p>
           </div>
           <div class="concept-card animate-fade-in-up stagger-2">
@@ -63,7 +82,9 @@
             </div>
             <h3>Valida lo Aprendido</h3>
             <p>
-              Pon a prueba tu memoria y comprensión resolviendo el quiz diario basado en el contenido del día. Recibe retroalimentación instantánea y gana puntos de experiencia.
+              Pon a prueba tu memoria y comprensión resolviendo el quiz diario
+              basado en el contenido del día. Recibe retroalimentación
+              instantánea y gana puntos de experiencia.
             </p>
           </div>
         </div>
@@ -75,11 +96,19 @@
       <div class="features-container">
         <div class="features-header">
           <h2>Características principales</h2>
-          <p>Herramientas diseñadas para potenciar tu crecimiento continuo sin aburrirte en el camino.</p>
+          <p>
+            Herramientas diseñadas para potenciar tu crecimiento continuo sin
+            aburrirte en el camino.
+          </p>
           <div class="header-line"></div>
         </div>
         <div class="features-grid">
-          <div v-for="(feat, idx) in featuresList" :key="idx" class="feature-item animate-fade-in-up" :class="`stagger-${Math.min(idx, 6)}`">
+          <div
+            v-for="(feat, idx) in featuresList"
+            :key="idx"
+            class="feature-item animate-fade-in-up"
+            :class="`stagger-${Math.min(idx, 6)}`"
+          >
             <div class="feature-icon" :style="{ background: feat.gradient }">
               <ion-icon :icon="feat.icon" />
             </div>
@@ -100,13 +129,25 @@
         </div>
         <div class="flow-content-wrapper">
           <div class="flow-image-side animate-fade-in">
-            <img src="/assets/DevBloom_question.png" alt="DevBloom Mascot Question" class="flow-mascot-img" />
+            <img
+              src="/assets/DevBloom_question.png"
+              alt="DevBloom Mascot Question"
+              class="flow-mascot-img"
+            />
           </div>
           <div class="flow-steps">
-            <div v-for="(step, idx) in flowSteps" :key="idx" class="flow-step animate-fade-in-up" :class="`stagger-${idx}`">
+            <div
+              v-for="(step, idx) in flowSteps"
+              :key="idx"
+              class="flow-step animate-fade-in-up"
+              :class="`stagger-${idx}`"
+            >
               <div class="step-num-box">
                 <span class="step-number">{{ idx + 1 }}</span>
-                <div v-if="idx < flowSteps.length - 1" class="step-connector"></div>
+                <div
+                  v-if="idx < flowSteps.length - 1"
+                  class="step-connector"
+                ></div>
               </div>
               <div class="step-content">
                 <h3>{{ step.title }}</h3>
@@ -124,7 +165,10 @@
         <div class="roadmap-header">
           <span class="roadmap-tag">🚀 Proyección</span>
           <h2>Roadmap del Proyecto</h2>
-          <p>DevBloom está vivo y en constante evolución. Conoce lo que ya está listo y lo que estamos construyendo.</p>
+          <p>
+            DevBloom está vivo y en constante evolución. Conoce lo que ya está
+            listo y lo que estamos construyendo.
+          </p>
           <div class="header-line"></div>
         </div>
         <div class="roadmap-box">
@@ -134,25 +178,29 @@
               <li>
                 <span class="status-icon success-icon">✓</span>
                 <div class="roadmap-item-info">
-                  <strong>Contenido Diario:</strong> Microlecciones curadas e interactivas cada mañana.
+                  <strong>Contenido Diario:</strong> Microlecciones curadas e
+                  interactivas cada mañana.
                 </div>
               </li>
               <li>
                 <span class="status-icon success-icon">✓</span>
                 <div class="roadmap-item-info">
-                  <strong>Quizzes Rápidos:</strong> Cuestionarios diarios con estadísticas de precisión.
+                  <strong>Quizzes Rápidos:</strong> Cuestionarios diarios con
+                  estadísticas de precisión.
                 </div>
               </li>
               <li>
                 <span class="status-icon success-icon">✓</span>
                 <div class="roadmap-item-info">
-                  <strong>Historial y Favoritos:</strong> Repasa lo leído y guarda lecciones importantes.
+                  <strong>Historial y Favoritos:</strong> Repasa lo leído y
+                  guarda lecciones importantes.
                 </div>
               </li>
               <li>
                 <span class="status-icon success-icon">✓</span>
                 <div class="roadmap-item-info">
-                  <strong>Perfil y Logros:</strong> Sistema inicial de XP y niveles de desarrollador.
+                  <strong>Perfil y Logros:</strong> Sistema inicial de XP y
+                  niveles de desarrollador.
                 </div>
               </li>
             </ul>
@@ -163,25 +211,30 @@
               <li>
                 <span class="status-icon progress-icon">⚙</span>
                 <div class="roadmap-item-info">
-                  <strong>Árbol de Habilidades (RPG):</strong> Ruta interactiva para desbloquear tecnologías de forma secuencial.
+                  <strong>Árbol de Habilidades (RPG):</strong> Ruta interactiva
+                  para desbloquear tecnologías de forma secuencial.
                 </div>
               </li>
               <li>
                 <span class="status-icon progress-icon">⚙</span>
                 <div class="roadmap-item-info">
-                  <strong>Desafíos de Código Interactivos:</strong> Editor integrado para completar código en el navegador/móvil.
+                  <strong>Desafíos de Código Interactivos:</strong> Editor
+                  integrado para completar código en el navegador/móvil.
                 </div>
               </li>
               <li>
                 <span class="status-icon progress-icon">⚙</span>
                 <div class="roadmap-item-info">
-                  <strong>Duelos de Programación (PvP):</strong> Compite asíncronamente con otros desarrolladores en velocidad de lógica.
+                  <strong>Duelos de Programación (PvP):</strong> Compite
+                  asíncronamente con otros desarrolladores en velocidad de
+                  lógica.
                 </div>
               </li>
               <li>
                 <span class="status-icon progress-icon">⚙</span>
                 <div class="roadmap-item-info">
-                  <strong>Soporte offline y PWA avanzada:</strong> Cacheo inteligente y notificaciones locales mejoradas.
+                  <strong>Soporte offline y PWA avanzada:</strong> Cacheo
+                  inteligente y notificaciones locales mejoradas.
                 </div>
               </li>
             </ul>
@@ -201,15 +254,30 @@
 
         <!-- Custom Interactive Carousel -->
         <div class="carousel-container">
-          <button class="carousel-btn prev-btn" @click="prevSlide" aria-label="Previous slide">
+          <button
+            class="carousel-btn prev-btn"
+            @click="prevSlide"
+            aria-label="Previous slide"
+          >
             <ion-icon :icon="chevronBackOutline" />
           </button>
-          
+
           <div class="carousel-track-wrapper">
-            <div class="carousel-track" :style="{ transform: `translateX(-${activeSlide * 100}%)` }">
-              <div v-for="(slide, index) in slides" :key="index" class="carousel-slide">
+            <div
+              class="carousel-track"
+              :style="{ transform: `translateX(-${activeSlide * 100}%)` }"
+            >
+              <div
+                v-for="(slide, index) in slides"
+                :key="index"
+                class="carousel-slide"
+              >
                 <div class="slide-card">
-                  <img :src="slide.image" :alt="slide.title" class="slide-img" />
+                  <img
+                    :src="slide.image"
+                    :alt="slide.title"
+                    class="slide-img"
+                  />
                   <div class="slide-caption">
                     <h3>{{ slide.title }}</h3>
                     <p>{{ slide.description }}</p>
@@ -219,15 +287,19 @@
             </div>
           </div>
 
-          <button class="carousel-btn next-btn" @click="nextSlide" aria-label="Next slide">
+          <button
+            class="carousel-btn next-btn"
+            @click="nextSlide"
+            aria-label="Next slide"
+          >
             <ion-icon :icon="chevronForwardOutline" />
           </button>
 
           <div class="carousel-dots">
-            <span 
-              v-for="(_, index) in slides" 
-              :key="index" 
-              class="dot" 
+            <span
+              v-for="(_, index) in slides"
+              :key="index"
+              class="dot"
               :class="{ active: index === activeSlide }"
               @click="setSlide(index)"
             ></span>
@@ -242,19 +314,38 @@
         <div class="download-content">
           <h2>Lleva DevBloom a todas partes</h2>
           <p>
-            Instala nuestra Aplicación Web Progresiva (PWA) o descarga la app nativa para Android y continúa aprendiendo desde cualquier dispositivo, incluso sin conexión a internet.
+            Instala nuestra Aplicación Web Progresiva (PWA) o descarga la app
+            nativa para Android y continúa aprendiendo desde cualquier
+            dispositivo, incluso sin conexión a internet.
           </p>
           <div class="download-actions">
-            <a href="https://github.com/dakoo096/devbloom/actions/runs/28680098515/artifacts/8073767581" target="_blank" rel="noopener" class="btn-download-cta btn-download-primary">
-              <ion-icon :icon="logoAndroid" class="btn-download-icon android-icon" />
+            <a
+              href="https://github.com/dakoo096/devbloom/actions/runs/28680098515/artifacts/8073767581"
+              target="_blank"
+              rel="noopener"
+              class="btn-download-cta btn-download-primary"
+            >
+              <ion-icon
+                :icon="logoAndroid"
+                class="btn-download-icon android-icon"
+              />
               <span>Descargar APK (Android)</span>
             </a>
-            <router-link to="/register" class="btn-download-cta btn-download-secondary">
-              <ion-icon :icon="rocketOutline" class="btn-download-icon rocket-icon" />
+            <router-link
+              to="/register"
+              class="btn-download-cta btn-download-secondary"
+            >
+              <ion-icon
+                :icon="rocketOutline"
+                class="btn-download-icon rocket-icon"
+              />
               <span>Empezar Gratis</span>
             </router-link>
           </div>
-          <p class="download-subtext">También puedes instalarla desde tu navegador móvil usando la opción "Agregar a pantalla de inicio".</p>
+          <p class="download-subtext">
+            También puedes instalarla desde tu navegador móvil usando la opción
+            "Agregar a pantalla de inicio".
+          </p>
         </div>
       </div>
     </section>
@@ -264,7 +355,9 @@
       <div class="tech-container">
         <div class="tech-header">
           <h2>Branded Stack</h2>
-          <p>Desarrollado sobre un ecosistema de tecnologías robustas y modernas.</p>
+          <p>
+            Desarrollado sobre un ecosistema de tecnologías robustas y modernas.
+          </p>
           <div class="header-line"></div>
         </div>
         <div class="tech-grid">
@@ -301,116 +394,144 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { IonIcon } from '@ionic/vue';
-import { 
-  laptopOutline, bookOutline, bulbOutline, 
-  helpCircleOutline, heartOutline, barChartOutline, trophyOutline, 
-  flameOutline, optionsOutline, moonOutline, rocketOutline, 
-  constructOutline, schoolOutline, chevronBackOutline, chevronForwardOutline,
-  logoAndroid
-} from 'ionicons/icons';
+import { ref } from "vue";
+import { IonIcon } from "@ionic/vue";
+import {
+  laptopOutline,
+  bookOutline,
+  bulbOutline,
+  helpCircleOutline,
+  heartOutline,
+  barChartOutline,
+  trophyOutline,
+  flameOutline,
+  optionsOutline,
+  moonOutline,
+  rocketOutline,
+  constructOutline,
+  schoolOutline,
+  chevronBackOutline,
+  chevronForwardOutline,
+  logoAndroid,
+} from "ionicons/icons";
 
 // Features List Configuration
 const featuresList = [
   {
-    title: 'Tips Diarios',
-    description: 'Lecciones breves enfocadas en buenas prácticas y trucos de codificación.',
+    title: "Tips Diarios",
+    description:
+      "Lecciones breves enfocadas en buenas prácticas y trucos de codificación.",
     icon: bookOutline,
-    gradient: 'linear-gradient(135deg, #6C5CE7, #A29BFE)'
+    gradient: "linear-gradient(135deg, #6C5CE7, #A29BFE)",
   },
   {
-    title: 'Conceptos Claros',
-    description: 'Explicaciones directas y sin rodeos de temas complejos de desarrollo.',
+    title: "Conceptos Claros",
+    description:
+      "Explicaciones directas y sin rodeos de temas complejos de desarrollo.",
     icon: bulbOutline,
-    gradient: 'linear-gradient(135deg, #00CEC9, #55EFC4)'
+    gradient: "linear-gradient(135deg, #00CEC9, #55EFC4)",
   },
   {
-    title: 'Quizzes Rápidos',
-    description: 'Evaluaciones cortas para verificar tu retención inmediatamente.',
+    title: "Quizzes Rápidos",
+    description:
+      "Evaluaciones cortas para verificar tu retención inmediatamente.",
     icon: helpCircleOutline,
-    gradient: 'linear-gradient(135deg, #FD79A8, #FD86B1)'
+    gradient: "linear-gradient(135deg, #FD79A8, #FD86B1)",
   },
   {
-    title: 'Tus Favoritos',
-    description: 'Marca y guarda contenidos importantes para consultarlos más adelante.',
+    title: "Tus Favoritos",
+    description:
+      "Marca y guarda contenidos importantes para consultarlos más adelante.",
     icon: heartOutline,
-    gradient: 'linear-gradient(135deg, #E17055, #E47E66)'
+    gradient: "linear-gradient(135deg, #E17055, #E47E66)",
   },
   {
-    title: 'Estadísticas',
-    description: 'Supervisa tu precisión, cantidad de lecciones leídas y tiempo activo.',
+    title: "Estadísticas",
+    description:
+      "Supervisa tu precisión, cantidad de lecciones leídas y tiempo activo.",
     icon: barChartOutline,
-    gradient: 'linear-gradient(135deg, #00B894, #1ABF9F)'
+    gradient: "linear-gradient(135deg, #00B894, #1ABF9F)",
   },
   {
-    title: 'Logros Desbloqueables',
-    description: 'Cumple objetivos para conseguir recompensas y acumular Dev XP.',
+    title: "Logros Desbloqueables",
+    description:
+      "Cumple objetivos para conseguir recompensas y acumular Dev XP.",
     icon: trophyOutline,
-    gradient: 'linear-gradient(135deg, #FDCB6E, #FDD07D)'
+    gradient: "linear-gradient(135deg, #FDCB6E, #FDD07D)",
   },
   {
-    title: 'Rachas Diarias',
-    description: 'Mantén activo el hábito diario de lectura para conseguir multiplicadores.',
+    title: "Rachas Diarias",
+    description:
+      "Mantén activo el hábito diario de lectura para conseguir multiplicadores.",
     icon: flameOutline,
-    gradient: 'linear-gradient(135deg, #D63031, #FF7675)'
+    gradient: "linear-gradient(135deg, #D63031, #FF7675)",
   },
   {
-    title: 'Filtros Personalizados',
-    description: 'Selecciona tus lenguajes y áreas de interés para adaptar el feed.',
+    title: "Filtros Personalizados",
+    description:
+      "Selecciona tus lenguajes y áreas de interés para adaptar el feed.",
     icon: optionsOutline,
-    gradient: 'linear-gradient(135deg, #0984E3, #74B9FF)'
+    gradient: "linear-gradient(135deg, #0984E3, #74B9FF)",
   },
   {
-    title: 'Modo Oscuro Native',
-    description: 'Interfaz fluida y descansada, perfecta para programadores nocturnos.',
+    title: "Modo Oscuro Native",
+    description:
+      "Interfaz fluida y descansada, perfecta para programadores nocturnos.",
     icon: moonOutline,
-    gradient: 'linear-gradient(135deg, #2D3436, #636E72)'
-  }
+    gradient: "linear-gradient(135deg, #2D3436, #636E72)",
+  },
 ];
 
 // How It Works Steps
 const flowSteps = [
   {
-    title: 'Elige tus tecnologías',
-    description: 'Personaliza tu perfil marcando tus áreas de interés y tus lenguajes en el onboarding.'
+    title: "Elige tus tecnologías",
+    description:
+      "Personaliza tu perfil marcando tus áreas de interés y tus lenguajes en el onboarding.",
   },
   {
-    title: 'Recibe contenido diario',
-    description: 'Cada mañana, DevBloom genera lecciones personalizadas basadas en tus preferencias.'
+    title: "Recibe contenido diario",
+    description:
+      "Cada mañana, DevBloom genera lecciones personalizadas basadas en tus preferencias.",
   },
   {
-    title: 'Responde Quizzes',
-    description: 'Realiza el test diario para evaluar lo aprendido y comprobar tu asimilación.'
+    title: "Responde Quizzes",
+    description:
+      "Realiza el test diario para evaluar lo aprendido y comprobar tu asimilación.",
   },
   {
-    title: 'Gana Experiencia',
-    description: 'Sube de nivel de desarrollador al acumular puntos XP y desbloquear logros en tu perfil.'
+    title: "Gana Experiencia",
+    description:
+      "Sube de nivel de desarrollador al acumular puntos XP y desbloquear logros en tu perfil.",
   },
   {
-    title: 'Mejora tus habilidades',
-    description: 'Adquiere un hábito sólido y amplía tus conocimientos día con día en unos minutos.'
-  }
+    title: "Mejora tus habilidades",
+    description:
+      "Adquiere un hábito sólido y amplía tus conocimientos día con día en unos minutos.",
+  },
 ];
 
 // Carousel Slides Configuration
-const baseUrl = import.meta.env.BASE_URL || '/';
+const baseUrl = import.meta.env.BASE_URL || "/";
 const slides = [
   {
-    title: 'Lecciones Diarias',
-    description: 'Visualiza tus tarjetas diarias filtradas según tus tecnologías e intereses.',
-    image: `${baseUrl}pagPrincipal_DevBloom.png`
+    title: "Lecciones Diarias",
+    description:
+      "Visualiza tus tarjetas diarias filtradas según tus tecnologías e intereses.",
+    image: `${baseUrl}pagPrincipal_DevBloom.png`,
   },
   {
-    title: 'Quizzes Dinámicos',
-    description: 'Valida tu conocimiento resolviendo cuestionarios con feedback en tiempo real.',
-    image: `${baseUrl}quizdiario_DevBloom.png`
+    title: "Quizzes Dinámicos",
+    description:
+      "Valida tu conocimiento resolviendo cuestionarios con feedback en tiempo real.",
+    image: `${baseUrl}quizdiario_DevBloom.png`,
   },
   {
-    title: 'Perfil y Gamificación',
-    description: 'Revisa tu nivel de desarrollador, barra de XP, rachas, precisión de respuestas y logros.',
-    image: `${baseUrl}miPerfil_DevBloom.png`
-  }
+    title: "Perfil y Gamificación",
+    description:
+      "Revisa tu nivel de desarrollador, barra de XP, rachas, precisión de respuestas y logros.",
+    image: `${baseUrl}miPerfil_DevBloom.png`,
+  },
 ];
 
 // Carousel Logic
@@ -427,7 +548,6 @@ function prevSlide() {
 function setSlide(idx: number) {
   activeSlide.value = idx;
 }
-
 </script>
 
 <style scoped>
@@ -1294,7 +1414,7 @@ section {
   background: #ffffff;
   color: #5f27cd !important;
   border: none;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15),
               inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
@@ -1316,7 +1436,7 @@ section {
 
 .btn-download-primary:hover {
   transform: translateY(-4px) scale(1.03);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25), 
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25),
               inset 0 1px 0 rgba(255, 255, 255, 0.9);
   background: #f5f6ff;
   color: #5f27cd !important;
@@ -1443,7 +1563,7 @@ section {
   .flow-content-wrapper {
     flex-direction: column;
     gap: 40px;
-  
+  }
   .flow-mascot-img {
     max-width: 240px;
   }
