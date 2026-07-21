@@ -1335,22 +1335,12 @@ section {
 .font-ts { color: #3178c6; border-color: rgba(49, 120, 198, 0.2); }
 .font-pinia { color: #ffe15d; border-color: rgba(255, 225, 93, 0.2); }
 .font-springboot { color: #6db33f; border-color: rgba(109, 179, 63, 0.2); }
-.font-security { color: #232f3e; border-color: rgba(35, 47, 62, 0.2); }
+.font-security { color: var(--dd-tech-security-color); border-color: var(--dd-tech-security-border); }
 .font-jwt { color: #f25f5c; border-color: rgba(242, 95, 92, 0.2); }
 .font-mysql { color: #00758f; border-color: rgba(0, 117, 143, 0.2); }
 .font-flyway { color: #cc0200; border-color: rgba(204, 2, 0, 0.2); }
 .font-railway { color: #9c27b0; border-color: rgba(156, 39, 176, 0.2); }
-.font-vercel { color: #000000; border-color: rgba(0, 0, 0, 0.2); }
-
-/* Dark mode overrides for readability */
-:global(body.dark) .font-security {
-  color: #70a1ff;
-  border-color: rgba(112, 161, 255, 0.3);
-}
-:global(body.dark) .font-vercel {
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.3);
-}
+.font-vercel { color: var(--dd-tech-vercel-color); border-color: var(--dd-tech-vercel-border); }
 
 /* Download CTA Section */
 .download-section {
@@ -1555,8 +1545,9 @@ section {
     gap: 24px;
   }
   .slide-img {
-    width: 100%;
+    width: auto;
     max-width: 100%;
+    max-height: 55vh;
     height: auto;
     object-fit: contain;
   }
@@ -1574,18 +1565,6 @@ section {
   }
   .carousel-slide {
     padding: 16px 12px;
-  }
-  .slide-card {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 24px;
-  }
-  .slide-img {
-    max-width: 100%;
-    width: 100%;
-    height: auto;
-    object-fit: contain;
   }
   .slide-caption {
     width: 100%;

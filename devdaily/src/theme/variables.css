@@ -101,6 +101,12 @@
   --dd-glass-bg: rgba(255, 255, 255, 0.72);
   --dd-glass-border: rgba(255, 255, 255, 0.3);
 
+  /* Tech stack chip colors that need per-theme contrast (too dark to read on a dark chip background) */
+  --dd-tech-security-color: #232f3e;
+  --dd-tech-security-border: rgba(35, 47, 62, 0.2);
+  --dd-tech-vercel-color: #000000;
+  --dd-tech-vercel-border: rgba(0, 0, 0, 0.2);
+
   /* Ionic overrides */
   --ion-background-color: var(--dd-bg);
   --ion-background-color-rgb: 248, 249, 254;
@@ -157,6 +163,11 @@ body.dark {
   --dd-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
   --dd-glass-bg: rgba(22, 27, 34, 0.80);
   --dd-glass-border: rgba(48, 54, 61, 0.5);
+
+  --dd-tech-security-color: #70a1ff;
+  --dd-tech-security-border: rgba(112, 161, 255, 0.3);
+  --dd-tech-vercel-color: #ffffff;
+  --dd-tech-vercel-border: rgba(255, 255, 255, 0.3);
 
   --ion-background-color: var(--dd-bg);
   --ion-background-color-rgb: 13, 17, 23;
