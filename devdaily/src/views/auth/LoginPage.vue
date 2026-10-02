@@ -13,7 +13,7 @@
           <div class="brand-header-container">
             <img src="/DevBloom header.png" alt="DevBloom" class="brand-header-img" />
           </div>
-          <h1 class="app-name">Dev<span class="gradient-text">Daily</span></h1>
+          <h1 class="app-name">Dev<span class="gradient-text">Bloom</span></h1>
           <p class="app-tagline">Tu dosis diaria de desarrollo</p>
         </div>
 

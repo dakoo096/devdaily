@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/devdaily
-    username: devbloom_user
-    password: devbloom_pass_local
+    url: ${DB_URL:jdbc:postgresql://db:5432/devdaily}
+    username: ${DB_USERNAME:devbloom_user}
+    password: ${DB_PASSWORD:devbloom_pass_local}
     driver-class-name: org.postgresql.Driver
   jpa:
     show-sql: true
@@ -15,11 +15,9 @@ spring:
     enabled: true
     baseline-on-migrate: true
     clean-disabled: false
-    clean-on-validation-error: true
 
 # Application Custom Properties
 app:
   jwt:
-    secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
-    # 24 hours in milliseconds (24 * 60 * 60 * 1000)
-    expiration-ms: 86400000
+    secret: ${JWT_SECRET}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}

@@ -68,3 +68,7 @@ INSERT INTO quiz_options (id, question_id, text, is_correct) VALUES
 (22, 6, '@HttpStatus', false),
 (23, 6, '@ExceptionHandler', false),
 (24, 6, '@ResponseCode', false);
+
+-- Advance sequence counters for PostgreSQL to avoid duplicate key errors on subsequent inserts
+SELECT setval('quiz_questions_id_seq', (SELECT MAX(id) FROM quiz_questions));
+SELECT setval('quiz_options_id_seq', (SELECT MAX(id) FROM quiz_options));

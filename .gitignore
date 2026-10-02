@@ -5,9 +5,9 @@
 .idea/
 .vscode/
 .env
-.env.local
-.env.*.local
+.env.*
 *.env
+!.env.example
 
 # Frontend (devdaily)
 devdaily/node_modules/

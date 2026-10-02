@@ -297,7 +297,7 @@ INSERT INTO contents (slug, type, difficulty, title, body, area, technology, emo
 'FRONTEND', 'VUE', '❓', NOW(), NOW(), TRUE),
 
 ('dry-principle-meaning', 'QUESTION', 'BEGINNER', '¿Qué es el Principio DRY?', 
-'¿"Don\'t Repeat Yourself" significa que nunca debo duplicar código?\n\n✅ DRY significa no duplicar CONOCIMIENTO, no necesariamente código.\n✅ Duplicar código similar pero con propósitos diferentes es válido.\n❌ Abstraer prematuramente para evitar duplicación puede crear acoplamiento innecesario.', 
+'¿"Don''t Repeat Yourself" significa que nunca debo duplicar código?\n\n✅ DRY significa no duplicar CONOCIMIENTO, no necesariamente código.\n✅ Duplicar código similar pero con propósitos diferentes es válido.\n❌ Abstraer prematuramente para evitar duplicación puede crear acoplamiento innecesario.', 
 'BACKEND', 'JAVA', '❓', NOW(), NOW(), TRUE),
 
 ('why-react-hooks', 'QUESTION', 'BEGINNER', '¿Qué son los React Hooks?', 

@@ -32,3 +32,8 @@ INSERT INTO user_pref_types (preference_id, content_type) VALUES
 -- Admin default settings
 INSERT INTO user_settings (id, user_id, dark_mode, notifications_enabled, notification_time, updated_at) VALUES
 (1, 1, TRUE, FALSE, '09:00', NOW());
+
+-- Advance sequence counters for PostgreSQL to avoid duplicate key errors on subsequent inserts
+SELECT setval('users_id_seq', (SELECT MAX(id) FROM users));
+SELECT setval('user_preferences_id_seq', (SELECT MAX(id) FROM user_preferences));
+SELECT setval('user_settings_id_seq', (SELECT MAX(id) FROM user_settings));
